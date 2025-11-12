@@ -1,0 +1,1074 @@
+let currentLevel = '';
+let currentSkill = '';
+let currentChallenge = '';
+let trainingPlan = [];
+
+// Charger le plan de formation depuis localStorage
+function loadTrainingPlan() {
+    const saved = localStorage.getItem('trainingPlan');
+    if (saved) {
+        trainingPlan = JSON.parse(saved);
+        updatePlanCount();
+    }
+}
+
+// Sauvegarder le plan de formation
+function saveTrainingPlan() {
+    localStorage.setItem('trainingPlan', JSON.stringify(trainingPlan));
+    updatePlanCount();
+}
+
+// Mettre à jour le compteur
+function updatePlanCount() {
+    const countElement = document.getElementById('plan-count');
+    if (countElement) {
+        countElement.textContent = trainingPlan.length;
+    }
+}
+
+// Ajouter un défi au plan de formation
+function addToTrainingPlan() {
+    const challenge = challenges[currentChallenge];
+
+    // Vérifier si le défi n'est pas déjà dans le plan
+    const exists = trainingPlan.some(item => item.id === currentChallenge);
+
+    if (exists) {
+        showNotification('Ce défi est déjà dans votre plan de formation', 'warning');
+        return;
+    }
+
+    // Ajouter le défi
+    trainingPlan.push({
+        id: currentChallenge,
+        level: currentLevel,
+        skill: currentSkill,
+        title: challenge.title,
+        icon: challenge.icon,
+        addedAt: new Date().toISOString()
+    });
+
+    saveTrainingPlan();
+    showNotification('Défi ajouté à votre plan de formation !', 'success');
+}
+
+// Visualiser le plan de formation
+function viewTrainingPlan() {
+    if (trainingPlan.length === 0) {
+        showNotification('Votre plan de formation est vide. Ajoutez des défis pour commencer !', 'info');
+        return;
+    }
+
+    const planHtml = `
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90%] overflow-y-auto">
+                <div class="sticky top-0 bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6 rounded-t-xl">
+                    <h2 class="text-2xl font-bold mb-2">📋 Mon Plan de Formation</h2>
+                    <p class="text-purple-100">Vous avez ${trainingPlan.length} défi${trainingPlan.length > 1 ? 's' : ''} dans votre plan</p>
+                </div>
+
+                <div class="p-6 space-y-4">
+                    ${trainingPlan.map((item, index) => {
+                        const challenge = challenges[item.id];
+                        const skillNames = {
+                            'assistante': 'L\'IA comme assistante',
+                            'pedagogie': 'Construction de scénarii pédagogiques',
+                            'pilotage': 'L\'IA comme outil de pilotage'
+                        };
+                        const levelNames = {
+                            'decouverte': 'Découverte',
+                            'approfondissement': 'Approfondissement',
+                            'maitrise': 'Maîtrise',
+                            'expertise': 'Expertise'
+                        };
+
+                        return `
+                            <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-4 border border-purple-200">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex items-start space-x-4 flex-1">
+                                        <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center flex-shrink-0 shadow">
+                                            <span class="text-2xl">${item.icon}</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h3 class="font-semibold text-gray-800 mb-2">${index + 1}. ${item.title}</h3>
+                                            <div class="flex flex-wrap gap-2 mb-2">
+                                                <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
+                                                    ${levelNames[item.level] || item.level}
+                                                </span>
+                                                <span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs rounded-full">
+                                                    ${skillNames[item.skill] || item.skill}
+                                                </span>
+                                            </div>
+                                            <p class="text-gray-600 text-sm">${challenge.description}</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="removeFromPlan('${item.id}')" class="ml-4 px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors text-sm">
+                                        Retirer
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+
+                <div class="sticky bottom-0 bg-gray-50 p-6 rounded-b-xl border-t border-gray-200 flex justify-between items-center">
+                    <button onclick="clearTrainingPlan()" class="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors">
+                        🗑️ Vider le plan
+                    </button>
+                    <div class="space-x-3">
+                        <button onclick="printTrainingPlan()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            🖨️ Imprimer
+                        </button>
+                        <button onclick="closePlanModal()" class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                            Fermer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', planHtml);
+}
+
+// Retirer un défi du plan
+function removeFromPlan(challengeId) {
+    trainingPlan = trainingPlan.filter(item => item.id !== challengeId);
+    saveTrainingPlan();
+    closePlanModal();
+    showNotification('Défi retiré du plan de formation', 'success');
+}
+
+// Vider le plan de formation
+function clearTrainingPlan() {
+    const confirmHtml = `
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl p-8 max-w-md mx-4 text-center">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">⚠️</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Vider le plan de formation ?</h3>
+                <p class="text-gray-600 mb-6">Cette action supprimera tous les défis de votre plan. Êtes-vous sûr ?</p>
+                <div class="space-x-4">
+                    <button onclick="closeConfirmClear()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                        Annuler
+                    </button>
+                    <button onclick="confirmClearPlan()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                        Oui, vider le plan
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', confirmHtml);
+}
+
+function confirmClearPlan() {
+    trainingPlan = [];
+    saveTrainingPlan();
+    closeConfirmClear();
+    closePlanModal();
+    showNotification('Plan de formation vidé', 'success');
+}
+
+function closeConfirmClear() {
+    const modals = document.querySelectorAll('.fixed.inset-0');
+    if (modals.length > 0) {
+        modals[modals.length - 1].remove();
+    }
+}
+
+function closePlanModal() {
+    const modal = document.querySelector('.fixed.inset-0');
+    if (modal) modal.remove();
+}
+
+// Imprimer le plan de formation
+function printTrainingPlan() {
+    const skillNames = {
+        'assistante': 'L\'IA comme assistante',
+        'pedagogie': 'Construction de scénarii pédagogiques',
+        'pilotage': 'L\'IA comme outil de pilotage'
+    };
+    const levelNames = {
+        'decouverte': 'Découverte',
+        'approfondissement': 'Approfondissement',
+        'maitrise': 'Maîtrise',
+        'expertise': 'Expertise'
+    };
+
+    // Créer le contenu HTML pour l'impression
+    const printContent = `
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <title>Mon Plan de Formation - Défis CPE et I.A</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    color: #333;
+                }
+                .header {
+                    text-align: center;
+                    margin-bottom: 30px;
+                    border-bottom: 3px solid #6366f1;
+                    padding-bottom: 20px;
+                }
+                .header h1 {
+                    color: #4f46e5;
+                    margin-bottom: 10px;
+                }
+                .header p {
+                    color: #666;
+                    font-size: 14px;
+                }
+                .challenge {
+                    margin-bottom: 25px;
+                    padding: 15px;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    page-break-inside: avoid;
+                }
+                .challenge-header {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 10px;
+                }
+                .challenge-icon {
+                    font-size: 24px;
+                    margin-right: 10px;
+                }
+                .challenge-title {
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: #1f2937;
+                }
+                .challenge-meta {
+                    margin: 10px 0;
+                }
+                .badge {
+                    display: inline-block;
+                    padding: 4px 10px;
+                    border-radius: 12px;
+                    font-size: 12px;
+                    margin-right: 8px;
+                    margin-bottom: 5px;
+                }
+                .badge-level {
+                    background-color: #ddd6fe;
+                    color: #6b21a8;
+                }
+                .badge-skill {
+                    background-color: #dbeafe;
+                    color: #1e40af;
+                }
+                .challenge-description {
+                    color: #4b5563;
+                    font-size: 14px;
+                    line-height: 1.5;
+                }
+                .footer {
+                    margin-top: 40px;
+                    padding-top: 20px;
+                    border-top: 2px solid #e5e7eb;
+                    text-align: center;
+                    font-size: 12px;
+                    color: #6b7280;
+                }
+                @media print {
+                    body {
+                        padding: 10px;
+                    }
+                    .challenge {
+                        page-break-inside: avoid;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>📋 Mon Plan de Formation</h1>
+                <p>Défis CPE et Intelligence Artificielle</p>
+                <p>Généré le ${new Date().toLocaleDateString('fr-FR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                })}</p>
+            </div>
+
+            ${trainingPlan.map((item, index) => {
+                const challenge = challenges[item.id];
+                return `
+                    <div class="challenge">
+                        <div class="challenge-header">
+                            <span class="challenge-icon">${item.icon}</span>
+                            <span class="challenge-title">${index + 1}. ${item.title}</span>
+                        </div>
+                        <div class="challenge-meta">
+                            <span class="badge badge-level">${levelNames[item.level] || item.level}</span>
+                            <span class="badge badge-skill">${skillNames[item.skill] || item.skill}</span>
+                        </div>
+                        <div class="challenge-description">
+                            ${challenge.description}
+                        </div>
+                    </div>
+                `;
+            }).join('')}
+
+            <div class="footer">
+                <p><strong>Créé par Donatien Wagner pour la DRANE Orléans-Tours</strong></p>
+                <p>CC BY-NC 4.0 - Attribution requise • Pas d'usage commercial</p>
+            </div>
+        </body>
+        </html>
+    `;
+
+    // Ouvrir une nouvelle fenêtre et imprimer
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(printContent);
+    printWindow.document.close();
+    printWindow.focus();
+
+    // Attendre que le contenu soit chargé avant d'imprimer
+    setTimeout(() => {
+        printWindow.print();
+    }, 250);
+}
+
+// Afficher une notification
+function showNotification(message, type = 'info') {
+    const colors = {
+        success: 'bg-green-500',
+        warning: 'bg-orange-500',
+        info: 'bg-blue-500',
+        error: 'bg-red-500'
+    };
+
+    const notificationHtml = `
+        <div class="fixed top-4 right-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg z-50 notification-slide-in">
+            ${message}
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', notificationHtml);
+
+    setTimeout(() => {
+        const notification = document.querySelector('.notification-slide-in');
+        if (notification) {
+            notification.style.animation = 'slideOut 0.3s ease-out';
+            setTimeout(() => notification.remove(), 300);
+        }
+    }, 3000);
+}
+
+const challenges = {
+    courriel: {
+        title: "Rédaction de courriel formel",
+        icon: "📧",
+        description: "Rédiger un courriel formel de demande de stage pour un élève auprès d'une entreprise locale, en incluant tous les éléments réglementaires.",
+        tools: [
+            "ChatGPT/Copilot (avec vérification humaine)",
+            "WriteMail.ai (avec vigilance sur la confidentialité)"
+        ],
+        steps: [
+            {
+                title: "1. Cadrage du Rôle et du Sujet",
+                content: "Définir le rôle de l'IA (ex: \"Secrétaire du CPE\"). Spécifier l'objet (courriel de demande de stage) et les contraintes (formel, éléments réglementaires)."
+            },
+            {
+                title: "2. Génération et Ajout des Blocs",
+                content: "Utiliser l'outil pour générer un brouillon. Demander à l'IA d'inclure : formule de politesse, présentation de l'établissement, objet de la demande, éléments pratiques (dates, assurance), formule de clôture."
+            },
+            {
+                title: "3. Validation Légale et Formatage",
+                content: "Vérifier que tous les éléments réglementaires (assurance, dates légales de stage, convention) sont exacts et conformes à la réglementation en vigueur."
+            },
+            {
+                title: "4. Vigilance RGPD/Censuré",
+                content: "S'assurer que le prompt ne contenait aucune donnée personnelle de l'élève (nom, prénom, notes) ; ces informations sont à ajouter manuellement après la génération."
+            }
+        ],
+        help: {
+            difficulty: "⭐⭐ Facile",
+            duration: "15-20 minutes",
+            tips: [
+                "Commencez par définir clairement le contexte : 'Tu es un assistant administratif d'un CPE'",
+                "Précisez le type de stage (observation, application) et la durée",
+                "N'oubliez pas les mentions légales : assurance, convention de stage",
+                "Gardez un ton professionnel mais bienveillant"
+            ],
+            example: "Exemple de prompt : 'Rédige un courriel formel pour demander un stage d'observation de 3e dans une boulangerie. Le courriel doit inclure les éléments réglementaires et être adressé au gérant.'",
+            pitfalls: [
+                "Ne jamais inclure de vraies données personnelles dans le prompt",
+                "Vérifier que les dates de stage respectent le calendrier scolaire",
+                "S'assurer que la convention de stage est mentionnée"
+            ]
+        }
+    },
+    simplification: {
+        title: "Simplification de texte réglementaire",
+        icon: "📝",
+        description: "Simplifier un texte réglementaire complexe (ex: circulaire sur l'obligation scolaire) en deux versions : une pour l'EVS, une pour les élèves de 6e.",
+        tools: [
+            "Chatbot PDFgear (avec vigilance RGPD sur le document source)",
+            "IA générative généraliste"
+        ],
+        steps: [
+            {
+                title: "1. Saisie du Document Public",
+                content: "Charger le texte (circulaire, RI, etc.) ou copier-coller les passages importants. S'assurer que le document est public et ne contient pas d'informations sensibles."
+            },
+            {
+                title: "2. Prompts de Différenciation",
+                content: "Demander la première version (ex: \"Synthétise pour une Équipe Vie Scolaire, en listant les points de vigilance et les responsabilités\"). Demander la seconde (ex: \"Simplifie pour des élèves de 6e, ton amical, vocabulaire simple, sous forme de 5 règles clés\")."
+            },
+            {
+                title: "3. Vérification de la Fidélité",
+                content: "Impératif : Vérifier point par point que la simplification n'a pas altéré ou dénaturé le sens du texte réglementaire initial. Comparer les versions pour s'assurer de la cohérence."
+            },
+            {
+                title: "4. Test de Compréhension",
+                content: "Faire relire les versions simplifiées par des collègues pour vérifier que le message est clair et que les nuances importantes sont préservées."
+            }
+        ],
+        help: {
+            difficulty: "⭐⭐ Facile",
+            duration: "20-25 minutes",
+            tips: [
+                "Choisissez un texte réglementaire récent et public",
+                "Demandez deux niveaux de simplification distincts",
+                "Utilisez des exemples concrets pour illustrer les règles",
+                "Conservez les termes techniques importants avec leur explication"
+            ],
+            example: "Exemple : Simplifier une circulaire sur l'absentéisme en version 'équipe' (procédures, seuils, sanctions) et version 'élèves' (pourquoi c'est important, comment rattraper).",
+            pitfalls: [
+                "Ne pas dénaturer le sens juridique du texte original",
+                "Éviter de supprimer des nuances importantes",
+                "Ne pas utiliser de documents internes confidentiels"
+            ]
+        }
+    },
+    visuel: {
+        title: "Création de visuel pour réunion",
+        icon: "🎨",
+        description: "Générer un visuel (type poster A4) annonçant une réunion parents-professeurs sans utiliser de photos protégées par droits d'auteur.",
+        tools: [
+            "Canva Éducation (avec fonctions IA, accordées aux enseignants)",
+            "Ideogram AI ou Bing Image Creator"
+        ],
+        steps: [
+            {
+                title: "1. Définition du Thème",
+                content: "Décrire l'objectif (réunion parents-profs), l'ambiance (bienveillante, informative) et les couleurs de l'établissement. Lister les informations essentielles à faire figurer."
+            },
+            {
+                title: "2. Prompt de Création d'Image",
+                content: "Saisir un prompt centré sur des concepts abstraits ou du graphisme (ex: \"illustration vectorielle de deux personnes se serrant la main, style épuré, sans visage\") pour minimiser le risque de droits d'auteur."
+            },
+            {
+                title: "3. Finalisation (Canva)",
+                content: "Importer l'image générée dans Canva. Ajouter les informations textuelles (date, heure, lieu) de manière claire et professionnelle. Vérifier la lisibilité et l'harmonie des couleurs."
+            },
+            {
+                title: "4. Validation Juridique",
+                content: "S'assurer que toutes les images utilisées sont libres de droits ou générées par IA. Vérifier que le visuel respecte la charte graphique de l'établissement."
+            }
+        ],
+        help: {
+            difficulty: "⭐⭐⭐ Moyen",
+            duration: "25-30 minutes",
+            tips: [
+                "Utilisez des termes génériques dans vos prompts (évitez les noms de marques)",
+                "Privilégiez les styles 'vectoriel', 'minimaliste' ou 'illustration'",
+                "Testez plusieurs variations avant de choisir",
+                "Gardez une hiérarchie visuelle claire (titre, date, lieu)"
+            ],
+            example: "Prompt exemple : 'Illustration vectorielle minimaliste représentant une école et des familles, couleurs bleu et blanc, style moderne et accueillant'",
+            pitfalls: [
+                "Éviter les prompts trop spécifiques qui pourraient reproduire des œuvres existantes",
+                "Ne pas surcharger le visuel d'informations",
+                "Vérifier la qualité d'impression avant diffusion"
+            ]
+        }
+    },
+    sensibilisation: {
+        title: "Séance de sensibilisation aux réseaux sociaux",
+        icon: "🛡️",
+        description: "Concevoir le plan détaillé d'une séance de sensibilisation aux risques des réseaux sociaux pour des élèves de 5e (45 minutes).",
+        tools: [
+            "MagicSchool AI (très utilisé dans l'enseignement, vérifier l'accord académique)",
+            "ChatGPT/Copilot"
+        ],
+        steps: [
+            {
+                title: "1. Cadrage Pédagogique",
+                content: "Définir le public (5e), la durée (45 min) et les objectifs précis (ex: identifier le cyber-harcèlement, protéger ses données). Lister les compétences du socle commun visées."
+            },
+            {
+                title: "2. Génération du Séquençage",
+                content: "Demander à l'IA un \"plan détaillé en 5 étapes\" (introduction, activité 1, activité 2, conclusion, évaluation flash). Préciser les modalités pédagogiques souhaitées (interactif, participatif)."
+            },
+            {
+                title: "3. Ajout d'Expertise Humaine",
+                content: "Remplacer les activités générées par des ressources validées (ex: vidéos institutionnelles, témoignages fictifs adaptés) et ajouter les temps impartis pour chaque phase."
+            },
+            {
+                title: "4. Préparation du Matériel",
+                content: "Créer les supports nécessaires (diaporama, fiches élèves, grille d'évaluation) en s'appuyant sur les suggestions de l'IA mais en les adaptant au contexte local."
+            }
+        ],
+        help: {
+            difficulty: "⭐⭐⭐ Moyen",
+            duration: "30-40 minutes",
+            tips: [
+                "Commencez par définir 3 objectifs pédagogiques précis",
+                "Alternez moments théoriques et pratiques",
+                "Prévoyez des exemples concrets adaptés à l'âge",
+                "Intégrez une évaluation des acquis en fin de séance"
+            ],
+            example: "Objectifs : 1) Identifier les risques, 2) Connaître les bons réflexes, 3) Savoir à qui s'adresser en cas de problème",
+            pitfalls: [
+                "Ne pas faire de la séance un cours magistral",
+                "Éviter les exemples trop anxiogènes",
+                "Ne pas oublier les aspects positifs des réseaux sociaux"
+            ]
+        }
+    },
+    briseglace: {
+        title: "Activités brise-glace pour la rentrée",
+        icon: "🎯",
+        description: "Proposer trois activités brise-glace originales pour une classe de Seconde le jour de la rentrée.",
+        tools: [
+            "Curipod (pour l'interactivité en classe)",
+            "IA générative généraliste"
+        ],
+        steps: [
+            {
+                title: "1. Cadrage du Contexte",
+                content: "Préciser l'objectif (créer du lien, mémoriser les prénoms), le niveau (Seconde), le temps (10 minutes par activité) et la contrainte (peu de matériel, facilement gérable)."
+            },
+            {
+                title: "2. Génération des Idées",
+                content: "Demander trois options différentes (ex: jeu de rôle rapide, activité de classement, défi collaboratif). Spécifier que les activités doivent être inclusives et respectueuses."
+            },
+            {
+                title: "3. Sélection et Adaptation",
+                content: "Choisir l'activité la plus simple à mettre en œuvre et l'adapter pour qu'elle soit facilement gérable par le CPE, garantissant le respect du temps et l'engagement de tous."
+            },
+            {
+                title: "4. Préparation Pratique",
+                content: "Préparer le matériel nécessaire, anticiper les variantes selon la taille du groupe, et prévoir un plan B si l'activité ne fonctionne pas comme prévu."
+            }
+        ],
+        help: {
+            difficulty: "⭐⭐ Facile",
+            duration: "20-25 minutes",
+            tips: [
+                "Privilégiez des activités courtes et dynamiques",
+                "Assurez-vous que chaque élève puisse participer",
+                "Préparez des variantes selon la taille du groupe",
+                "Gardez un rythme soutenu pour maintenir l'attention"
+            ],
+            example: "Activité 'Deux vérités, un mensonge' : chaque élève dit 3 choses sur lui, les autres devinent le mensonge",
+            pitfalls: [
+                "Éviter les activités trop personnelles dès le premier jour",
+                "Ne pas mettre d'élèves en difficulté",
+                "Prévoir une solution si certains sont timides"
+            ]
+        }
+    },
+    quiz: {
+        title: "Quiz sur le rôle des délégués",
+        icon: "❓",
+        description: "Générer 10 affirmations Vrai/Faux pour un quiz rapide sur le rôle et les responsabilités du délégué de classe.",
+        tools: [
+            "Quizalize AI (pour quiz interactif)",
+            "H5P (logiciel libre pour création de contenu interactif)"
+        ],
+        steps: [
+            {
+                title: "1. Fourniture du Corpus",
+                content: "Saisir les textes officiels sur le rôle des délégués (extrait de la loi, du RI, circulaires). S'assurer d'avoir les sources les plus récentes."
+            },
+            {
+                title: "2. Génération et Pièges",
+                content: "Demander 10 affirmations, en demandant spécifiquement à l'IA d'inclure des \"pièges subtils\" (informations souvent confondues par les élèves). Varier les niveaux de difficulté."
+            },
+            {
+                title: "3. Vérification Factuelle (Cruciale)",
+                content: "Relire minutieusement chaque affirmation pour garantir la véracité des informations. Les questions de quiz générées sont souvent les plus susceptibles de contenir des inexactitudes (hallucinations)."
+            },
+            {
+                title: "4. Test et Ajustement",
+                content: "Tester le quiz avec quelques collègues ou élèves pour vérifier la clarté des questions et ajuster si nécessaire. Préparer les explications pour chaque réponse."
+            }
+        ],
+        help: {
+            difficulty: "⭐⭐ Facile",
+            duration: "25-30 minutes",
+            tips: [
+                "Basez-vous sur des textes officiels récents",
+                "Mélangez questions faciles et plus complexes",
+                "Incluez des situations concrètes",
+                "Préparez des explications pour chaque réponse"
+            ],
+            example: "Exemple : 'Le délégué peut assister au conseil de classe' (Vrai) vs 'Le délégué peut consulter les notes de ses camarades' (Faux)",
+            pitfalls: [
+                "Vérifier chaque affirmation avec les textes officiels",
+                "Éviter les questions ambiguës",
+                "Ne pas créer de questions trop pointues pour le niveau"
+            ]
+        }
+    },
+    pevs: {
+        title: "Axes thématiques pour le PEVS",
+        icon: "📊",
+        description: "Utiliser l'IA pour générer 3 propositions d'axes thématiques (avec justification) pour le prochain PEVS en se basant sur les problématiques de l'établissement.",
+        tools: [
+            "LLMs ouverts et auto-hébergés (si disponibles en académie)",
+            "Plateforme IA Ministérielle (à venir)"
+        ],
+        steps: [
+            {
+                title: "1. Anonymisation Stricte des Données",
+                content: "Ne jamais saisir de données nominatives dans le prompt. Utiliser uniquement des données agrégées : \"Taux d'absentéisme : 8% ; 60% des sanctions concernent l'usage du téléphone ; 40% des élèves disent se sentir isolés\"."
+            },
+            {
+                title: "2. Demande de Synthèse",
+                content: "Demander à l'IA de proposer des thématiques (ex: \"inclusion numérique\", \"climat scolaire bienveillant\") basées sur ces données. Préciser le contexte de l'établissement (urbain/rural, effectifs, etc.)."
+            },
+            {
+                title: "3. Justification",
+                content: "Examiner si la justification fournie par l'IA est pertinente et cohérente avec les données fournies. C'est l'expertise du CPE qui valide le choix final des axes."
+            },
+            {
+                title: "4. Validation Collégiale",
+                content: "Présenter les propositions de l'IA à l'équipe de direction et aux partenaires pour validation et enrichissement avant finalisation du PEVS."
+            }
+        ],
+        help: {
+            difficulty: "⭐⭐⭐⭐ Difficile",
+            duration: "45-60 minutes",
+            tips: [
+                "Préparez vos données chiffrées en amont",
+                "Anonymisez complètement toutes les informations",
+                "Croisez avec les priorités académiques",
+                "Pensez aux moyens de mise en œuvre"
+            ],
+            example: "Données : 'Absentéisme 12%, conflits récréation 30%, orientation subie 25%' → Axes possibles : climat scolaire, orientation choisie",
+            pitfalls: [
+                "Ne jamais mentionner de noms d'élèves ou de familles",
+                "Vérifier la faisabilité des axes proposés",
+                "S'assurer de la cohérence avec le projet d'établissement"
+            ]
+        }
+    },
+    indicateurs: {
+        title: "Indicateurs de succès pour nouvelle règle",
+        icon: "📏",
+        description: "Identifier 5 indicateurs de succès mesurables pour évaluer la mise en œuvre d'une nouvelle règle du Règlement Intérieur.",
+        tools: [
+            "Outils d'IA intégrés aux ENT (si certifiés)",
+            "Framasoft/Framindmap (pour structuration)",
+            "IA générative généraliste (usage sans donnée personnelle)"
+        ],
+        steps: [
+            {
+                title: "1. Définition de la Règle",
+                content: "Saisir la nouvelle règle (ex: \"Interdiction des casquettes en intérieur\") et préciser ses objectifs (respect, identification, sécurité)."
+            },
+            {
+                title: "2. Demande d'Indicateurs",
+                content: "Demander des indicateurs quantifiables (ex: réduction de X% des rappels à l'ordre, taux de respect de la règle mesuré à Y moments). Spécifier qu'ils doivent être facilement mesurables."
+            },
+            {
+                title: "3. Priorisation des Actions",
+                content: "Sélectionner les 5 indicateurs les plus simples à mesurer par l'équipe EVS, et s'assurer qu'ils sont en lien direct avec les objectifs de la règle."
+            },
+            {
+                title: "4. Mise en Place du Suivi",
+                content: "Créer les outils de mesure (grilles, tableaux de bord) et définir la fréquence de relevé des indicateurs. Former l'équipe au recueil des données."
+            }
+        ],
+        help: {
+            difficulty: "⭐⭐⭐ Moyen",
+            duration: "30-35 minutes",
+            tips: [
+                "Choisissez des indicateurs simples à mesurer",
+                "Fixez des objectifs réalistes et datés",
+                "Impliquez l'équipe dans la définition",
+                "Prévoyez des points d'étape réguliers"
+            ],
+            example: "Règle téléphone : indicateurs = nb rappels/jour, nb confiscations/semaine, sondage respect perçu, nb incidents liés",
+            pitfalls: [
+                "Éviter les indicateurs trop complexes à mesurer",
+                "Ne pas multiplier les indicateurs",
+                "S'assurer que l'équipe peut les suivre facilement"
+            ]
+        }
+    },
+    entretien: {
+        title: "Questions d'entretien annuel EVS",
+        icon: "💬",
+        description: "Créer une liste de questions structurées pour un entretien annuel avec un membre de l'Équipe Vie Scolaire (EVS) sur son bilan et ses besoins en formation.",
+        tools: [
+            "ChatGPT/Copilot (usage personnel sans donnée élève)",
+            "Qwant AI (alternative française)"
+        ],
+        steps: [
+            {
+                title: "1. Cadrage du Contexte Professionnel",
+                content: "Demander à l'IA d'adopter le rôle de \"Directeur des Ressources Humaines Éducation\". Préciser l'objectif (bilan annuel, besoins en formation) et le type de questions (ouvertes, professionnelles, constructives)."
+            },
+            {
+                title: "2. Génération Structurée",
+                content: "Demander de structurer l'entretien en thèmes (ex: \"Bilan des actions menées\", \"Relations avec les élèves/familles\", \"Projet professionnel et formation\"). Prévoir 15-20 questions au total."
+            },
+            {
+                title: "3. Personnalisation Humaine",
+                content: "Retirer les questions trop génériques et ajouter celles spécifiques au contexte de l'établissement (ex: rôle dans le PEVS, participation à des actions spécifiques)."
+            },
+            {
+                title: "4. Préparation de l'Entretien",
+                content: "Organiser les questions par ordre logique, prévoir les relances possibles, et préparer une grille de prise de notes pour l'entretien."
+            }
+        ],
+        help: {
+            difficulty: "⭐⭐⭐ Moyen",
+            duration: "35-40 minutes",
+            tips: [
+                "Structurez l'entretien en 4-5 thèmes clairs",
+                "Alternez questions fermées et ouvertes",
+                "Préparez des questions de relance",
+                "Gardez un ton bienveillant et constructif"
+            ],
+            example: "Thèmes : bilan de l'année, relations professionnelles, difficultés rencontrées, projets, besoins de formation",
+            pitfalls: [
+                "Éviter les questions trop personnelles",
+                "Ne pas transformer l'entretien en interrogatoire",
+                "Laisser du temps pour l'expression libre"
+            ]
+        }
+    }
+};
+
+function selectLevel(level) {
+    currentLevel = level;
+    updateStepIndicator(2);
+    showSection('skill-selection');
+}
+
+function selectSkill(skill) {
+    currentSkill = skill;
+    updateStepIndicator(3);
+
+    // Masquer tous les groupes de défis
+    document.querySelectorAll('[id^="challenges-"]').forEach(el => el.classList.add('hidden'));
+
+    // Afficher le bon groupe selon la compétence (niveau découverte uniquement pour cette version)
+    let challengeGroup = '';
+    if (skill === 'assistante') {
+        challengeGroup = 'challenges-assistante';
+    } else if (skill === 'pedagogie') {
+        challengeGroup = 'challenges-pedagogie';
+    } else if (skill === 'pilotage') {
+        challengeGroup = 'challenges-pilotage';
+    }
+
+    if (challengeGroup) {
+        document.getElementById(challengeGroup).classList.remove('hidden');
+    }
+
+    showSection('challenge-selection');
+}
+
+function selectChallenge(challenge) {
+    currentChallenge = challenge;
+    updateStepIndicator(4);
+    showChallengeDetails(challenge);
+}
+
+function showChallengeDetails(challengeId) {
+    const challenge = challenges[challengeId];
+    if (!challenge) return;
+
+    const detailsHtml = `
+        <div class="text-center mb-8">
+            <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="text-3xl">${challenge.icon}</span>
+            </div>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">${challenge.title}</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">${challenge.description}</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-8 shadow-lg border border-gray-200 mb-6">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                <span class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                    <span class="text-blue-600">🛠️</span>
+                </span>
+                Outils recommandés
+            </h3>
+            <ul class="space-y-2">
+                ${challenge.tools.map(tool => `
+                    <li class="flex items-center text-gray-700">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                        ${tool}
+                    </li>
+                `).join('')}
+            </ul>
+        </div>
+
+        <div class="bg-white rounded-xl p-8 shadow-lg border border-gray-200 mb-6">
+            <h3 class="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+                <span class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                    <span class="text-green-600">📋</span>
+                </span>
+                Étapes de réalisation
+            </h3>
+            <div class="space-y-6">
+                ${challenge.steps.map((step, index) => `
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center flex-shrink-0 font-semibold">
+                            ${index + 1}
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800 mb-2">${step.title}</h4>
+                            <p class="text-gray-600">${step.content}</p>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <div class="text-center space-x-4">
+            <button onclick="goBack('challenge-selection')" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                ← Retour aux défis
+            </button>
+            <button onclick="toggleHelp()" class="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+                💡 Besoin d'aide ?
+            </button>
+            <button onclick="addToTrainingPlan()" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                ➕ Ajouter à mon plan de formation
+            </button>
+        </div>
+
+        <!-- Section d'aide cachée -->
+        <div id="help-section" class="hidden mt-8 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl p-8 border-l-4 border-orange-400">
+            <h3 class="text-xl font-semibold text-orange-800 mb-4 flex items-center">
+                <span class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center mr-3">
+                    <span class="text-orange-600">💡</span>
+                </span>
+                Aide détaillée pour ce défi
+            </h3>
+            <div id="help-content">
+                <!-- Contenu d'aide dynamique -->
+            </div>
+        </div>
+    `;
+
+    document.getElementById('challenge-details').innerHTML = detailsHtml;
+    showSection('challenge-details');
+}
+
+function startChallenge() {
+    // Créer un message de confirmation personnalisé
+    const confirmHtml = `
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl p-8 max-w-md mx-4 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">🎯</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Prêt à relever le défi ?</h3>
+                <p class="text-gray-600 mb-6">Vous allez commencer le défi "${challenges[currentChallenge].title}". Bonne chance !</p>
+                <div class="space-x-4">
+                    <button onclick="closeConfirm()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                        Annuler
+                    </button>
+                    <button onclick="launchChallenge()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                        C'est parti ! 🚀
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', confirmHtml);
+}
+
+function closeConfirm() {
+    const modal = document.querySelector('.fixed.inset-0');
+    if (modal) modal.remove();
+}
+
+function launchChallenge() {
+    closeConfirm();
+
+    // Afficher un message de succès
+    const successHtml = `
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl p-8 max-w-md mx-4 text-center">
+                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">🎉</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Défi lancé avec succès !</h3>
+                <p class="text-gray-600 mb-6">Vous pouvez maintenant utiliser les outils recommandés pour réaliser votre défi. Suivez les étapes proposées pour un résultat optimal.</p>
+                <button onclick="closeSuccess()" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                    Parfait ! 👍
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', successHtml);
+}
+
+function closeSuccess() {
+    const modal = document.querySelector('.fixed.inset-0');
+    if (modal) modal.remove();
+}
+
+function toggleHelp() {
+    const helpSection = document.getElementById('help-section');
+    const helpContent = document.getElementById('help-content');
+    const challenge = challenges[currentChallenge];
+
+    if (helpSection.classList.contains('hidden')) {
+        // Afficher l'aide
+        if (challenge && challenge.help) {
+            const helpHtml = `
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="mb-4">
+                            <span class="inline-block px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full mr-2">
+                                ${challenge.help.difficulty}
+                            </span>
+                            <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                                ⏱️ ${challenge.help.duration}
+                            </span>
+                        </div>
+
+                        <h4 class="font-semibold text-gray-800 mb-3">💡 Conseils pratiques</h4>
+                        <ul class="space-y-2 mb-6">
+                            ${challenge.help.tips.map(tip => `
+                                <li class="flex items-start text-gray-700">
+                                    <span class="w-2 h-2 bg-orange-400 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                                    <span>${tip}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+
+                        <h4 class="font-semibold text-gray-800 mb-3">⚠️ Pièges à éviter</h4>
+                        <ul class="space-y-2">
+                            ${challenge.help.pitfalls.map(pitfall => `
+                                <li class="flex items-start text-gray-700">
+                                    <span class="w-2 h-2 bg-red-400 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                                    <span>${pitfall}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-3">📝 Exemple concret</h4>
+                        <div class="bg-white p-4 rounded-lg border border-orange-200 mb-4">
+                            <p class="text-gray-700 italic">${challenge.help.example}</p>
+                        </div>
+
+                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                            <h5 class="font-semibold text-yellow-800 mb-2">🎯 Objectif de réussite</h5>
+                            <p class="text-yellow-700 text-sm">
+                                Vous avez réussi ce défi si vous obtenez un résultat professionnel
+                                que vous pourriez utiliser directement dans votre travail quotidien.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <button onclick="toggleHelp()" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+                        Masquer l'aide
+                    </button>
+                </div>
+            `;
+            helpContent.innerHTML = helpHtml;
+        }
+        helpSection.classList.remove('hidden');
+        helpSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        // Masquer l'aide
+        helpSection.classList.add('hidden');
+    }
+}
+
+function goBack(section) {
+    if (section === 'level-selection') {
+        updateStepIndicator(1);
+        showSection('level-selection');
+    } else if (section === 'skill-selection') {
+        updateStepIndicator(2);
+        showSection('skill-selection');
+    } else if (section === 'challenge-selection') {
+        updateStepIndicator(3);
+        showSection('challenge-selection');
+    }
+}
+
+function goToStep(step) {
+    if (step === 1) {
+        updateStepIndicator(1);
+        showSection('level-selection');
+    } else if (step === 2 && currentLevel) {
+        updateStepIndicator(2);
+        showSection('skill-selection');
+    } else if (step === 3 && currentLevel && currentSkill) {
+        updateStepIndicator(3);
+        showSection('challenge-selection');
+    } else if (step === 4 && currentLevel && currentSkill && currentChallenge) {
+        updateStepIndicator(4);
+        showSection('challenge-details');
+    }
+}
+
+function updateStepIndicator(activeStep) {
+    // Réinitialiser tous les indicateurs
+    for (let i = 1; i <= 4; i++) {
+        const step = document.getElementById(`step${i}`);
+        step.className = 'step-indicator w-10 h-10 rounded-full bg-white border-2 border-gray-300 flex items-center justify-center text-sm font-semibold text-gray-400 cursor-pointer';
+    }
+
+    // Activer les étapes jusqu'à l'étape active
+    for (let i = 1; i <= activeStep; i++) {
+        const step = document.getElementById(`step${i}`);
+        if (i === activeStep) {
+            step.className = 'step-indicator step-active w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold text-white cursor-pointer';
+        } else {
+            step.className = 'step-indicator w-10 h-10 rounded-full bg-white border-2 border-indigo-300 flex items-center justify-center text-sm font-semibold text-indigo-600 cursor-pointer';
+        }
+    }
+}
+
+function showSection(sectionId) {
+    // Masquer toutes les sections
+    const sections = ['level-selection', 'skill-selection', 'challenge-selection', 'challenge-details'];
+    sections.forEach(section => {
+        const element = document.getElementById(section);
+        if (element) {
+            element.classList.add('hidden');
+        }
+    });
+
+    // Afficher la section demandée
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.remove('hidden');
+    }
+}
+
+// Initialisation
+updateStepIndicator(1);
+loadTrainingPlan();
