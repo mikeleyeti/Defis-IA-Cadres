@@ -2,6 +2,12 @@
     "courriel": {
         "title": "Rédaction de courriel formel",
         "icon": "📧",
+        "category": "assistante",
+        "iconBg": "bg-blue-100",
+        "tags": [
+            {"label": "Communication", "color": "bg-blue-100 text-blue-800"},
+            {"label": "Réglementation", "color": "bg-green-100 text-green-800"}
+        ],
         "description": "Rédiger un courriel formel de demande de stage pour un élève auprès d'une entreprise locale, en incluant tous les éléments réglementaires.",
         "tools": [
             "ChatGPT/Copilot (avec vérification humaine)",
@@ -45,6 +51,12 @@
     "simplification": {
         "title": "Simplification de texte réglementaire",
         "icon": "📝",
+        "category": "assistante",
+        "iconBg": "bg-purple-100",
+        "tags": [
+            {"label": "Adaptation", "color": "bg-purple-100 text-purple-800"},
+            {"label": "Pédagogie", "color": "bg-yellow-100 text-yellow-800"}
+        ],
         "description": "Simplifier un texte réglementaire complexe (ex: circulaire sur l'obligation scolaire) en deux versions : une pour l'EVS, une pour les élèves de 6e.",
         "tools": [
             "Chatbot PDFgear (avec vigilance RGPD sur le document source)",
@@ -88,6 +100,12 @@
     "visuel": {
         "title": "Création de visuel pour réunion",
         "icon": "🎨",
+        "category": "assistante",
+        "iconBg": "bg-green-100",
+        "tags": [
+            {"label": "Design", "color": "bg-green-100 text-green-800"},
+            {"label": "Droits d'auteur", "color": "bg-red-100 text-red-800"}
+        ],
         "description": "Générer un visuel (type poster A4) annonçant une réunion parents-professeurs sans utiliser de photos protégées par droits d'auteur.",
         "tools": [
             "Canva Éducation (avec fonctions IA, accordées aux enseignants)",
@@ -131,6 +149,12 @@
     "sensibilisation": {
         "title": "Séance de sensibilisation aux réseaux sociaux",
         "icon": "🛡️",
+        "category": "pedagogie",
+        "iconBg": "bg-orange-100",
+        "tags": [
+            {"label": "Prévention", "color": "bg-orange-100 text-orange-800"},
+            {"label": "Cyber-sécurité", "color": "bg-red-100 text-red-800"}
+        ],
         "description": "Concevoir le plan détaillé d'une séance de sensibilisation aux risques des réseaux sociaux pour des élèves de 5e (45 minutes).",
         "tools": [
             "MagicSchool AI (très utilisé dans l'enseignement, vérifier l'accord académique)",
@@ -174,6 +198,12 @@
     "briseglace": {
         "title": "Activités brise-glace pour la rentrée",
         "icon": "🎯",
+        "category": "pedagogie",
+        "iconBg": "bg-yellow-100",
+        "tags": [
+            {"label": "Cohésion", "color": "bg-yellow-100 text-yellow-800"},
+            {"label": "Rentrée", "color": "bg-blue-100 text-blue-800"}
+        ],
         "description": "Proposer trois activités brise-glace originales pour une classe de Seconde le jour de la rentrée.",
         "tools": [
             "Curipod (pour l'interactivité en classe)",
@@ -217,6 +247,12 @@
     "quiz": {
         "title": "Quiz sur le rôle des délégués",
         "icon": "❓",
+        "category": "pedagogie",
+        "iconBg": "bg-indigo-100",
+        "tags": [
+            {"label": "Évaluation", "color": "bg-indigo-100 text-indigo-800"},
+            {"label": "Citoyenneté", "color": "bg-green-100 text-green-800"}
+        ],
         "description": "Générer 10 affirmations Vrai/Faux pour un quiz rapide sur le rôle et les responsabilités du délégué de classe.",
         "tools": [
             "Quizalize AI (pour quiz interactif)",
@@ -260,6 +296,12 @@
     "pevs": {
         "title": "Axes thématiques pour le PEVS",
         "icon": "📊",
+        "category": "pilotage",
+        "iconBg": "bg-red-100",
+        "tags": [
+            {"label": "Stratégie", "color": "bg-red-100 text-red-800"},
+            {"label": "PEVS", "color": "bg-purple-100 text-purple-800"}
+        ],
         "description": "Utiliser l'IA pour générer 3 propositions d'axes thématiques (avec justification) pour le prochain PEVS en se basant sur les problématiques de l'établissement.",
         "tools": [
             "LLMs ouverts et auto-hébergés (si disponibles en académie)",
@@ -303,6 +345,12 @@
     "indicateurs": {
         "title": "Indicateurs de succès pour nouvelle règle",
         "icon": "📏",
+        "category": "pilotage",
+        "iconBg": "bg-teal-100",
+        "tags": [
+            {"label": "Évaluation", "color": "bg-teal-100 text-teal-800"},
+            {"label": "Règlement", "color": "bg-blue-100 text-blue-800"}
+        ],
         "description": "Identifier 5 indicateurs de succès mesurables pour évaluer la mise en œuvre d'une nouvelle règle du Règlement Intérieur.",
         "tools": [
             "Outils d'IA intégrés aux ENT (si certifiés)",
@@ -347,6 +395,12 @@
     "entretien": {
         "title": "Questions d'entretien annuel EVS",
         "icon": "💬",
+        "category": "pilotage",
+        "iconBg": "bg-pink-100",
+        "tags": [
+            {"label": "RH", "color": "bg-pink-100 text-pink-800"},
+            {"label": "Formation", "color": "bg-yellow-100 text-yellow-800"}
+        ],
         "description": "Créer une liste de questions structurées pour un entretien annuel avec un membre de l'Équipe Vie Scolaire (EVS) sur son bilan et ses besoins en formation.",
         "tools": [
             "ChatGPT/Copilot (usage personnel sans donnée élève)",
