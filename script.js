@@ -385,6 +385,42 @@ function selectLevel(level) {
     showSection('skill-selection');
 }
 
+// Générer les cartes de défis dynamiquement depuis le JSON
+function renderChallenges(containerId, category) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // Filtrer les défis par catégorie
+    const categoryDefis = Object.entries(challenges).filter(([id, challenge]) =>
+        challenge.category === category
+    );
+
+    // Générer le HTML pour chaque défi
+    let challengesHtml = '';
+    categoryDefis.forEach(([id, challenge], index) => {
+        const tagsHtml = challenge.tags.map(tag =>
+            `<span class="px-3 py-1 ${tag.color} text-sm rounded-full">${tag.label}</span>`
+        ).join(' ');
+
+        challengesHtml += `
+            <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectChallenge('${id}')">
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 ${challenge.iconBg} rounded-lg flex items-center justify-center flex-shrink-0">
+                        <span class="text-xl">${challenge.icon}</span>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Défi ${index + 1}: ${challenge.title}</h3>
+                        <p class="text-gray-600 mb-3">${challenge.description}</p>
+                        <div class="flex flex-wrap gap-2">${tagsHtml}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = challengesHtml;
+}
+
 function selectSkill(skill) {
     currentSkill = skill;
     updateStepIndicator(3);
@@ -403,6 +439,8 @@ function selectSkill(skill) {
     }
 
     if (challengeGroup) {
+        // Générer les cartes de défis pour cette catégorie
+        renderChallenges(challengeGroup, skill);
         document.getElementById(challengeGroup).classList.remove('hidden');
     }
 

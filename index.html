@@ -118,118 +118,13 @@
       <p class="text-gray-600">Sélectionnez le défi que vous souhaitez relever</p>
      </div>
      <div id="challenges-assistante" class="space-y-6">
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectChallenge('courriel')">
-       <div class="flex items-start space-x-4">
-        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-xl">📧</span>
-        </div>
-        <div class="flex-1">
-         <h3 class="text-xl font-semibold text-gray-800 mb-2">Défi 1: Rédaction de courriel formel</h3>
-         <p class="text-gray-600 mb-3">Rédiger un courriel formel de demande de stage pour un élève auprès d'une entreprise locale, en incluant tous les éléments réglementaires.</p>
-         <div class="flex flex-wrap gap-2"><span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Communication</span> <span class="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">Réglementation</span>
-         </div>
-        </div>
-       </div>
-      </div>
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectChallenge('simplification')">
-       <div class="flex items-start space-x-4">
-        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-xl">📝</span>
-        </div>
-        <div class="flex-1">
-         <h3 class="text-xl font-semibold text-gray-800 mb-2">Défi 2: Simplification de texte réglementaire</h3>
-         <p class="text-gray-600 mb-3">Simplifier un texte réglementaire complexe en deux versions : une pour l'EVS, une pour les élèves de 6e.</p>
-         <div class="flex flex-wrap gap-2"><span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">Adaptation</span> <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm rounded-full">Pédagogie</span>
-         </div>
-        </div>
-       </div>
-      </div>
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectChallenge('visuel')">
-       <div class="flex items-start space-x-4">
-        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-xl">🎨</span>
-        </div>
-        <div class="flex-1">
-         <h3 class="text-xl font-semibold text-gray-800 mb-2">Défi 3: Création de visuel pour réunion</h3>
-         <p class="text-gray-600 mb-3">Générer un visuel (type poster A4) annonçant une réunion parents-professeurs sans utiliser de photos protégées par droits d'auteur.</p>
-         <div class="flex flex-wrap gap-2"><span class="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">Design</span> <span class="px-3 py-1 bg-red-100 text-red-800 text-sm rounded-full">Droits d'auteur</span>
-         </div>
-        </div>
-       </div>
-      </div>
+      <!-- Les défis seront générés dynamiquement par JavaScript -->
      </div>
      <div id="challenges-pedagogie" class="space-y-6 hidden">
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectChallenge('sensibilisation')">
-       <div class="flex items-start space-x-4">
-        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-xl">🛡️</span>
-        </div>
-        <div class="flex-1">
-         <h3 class="text-xl font-semibold text-gray-800 mb-2">Défi 1: Séance de sensibilisation aux réseaux sociaux</h3>
-         <p class="text-gray-600 mb-3">Concevoir le plan détaillé d'une séance de sensibilisation aux risques des réseaux sociaux pour des élèves de 5e (45 minutes).</p>
-         <div class="flex flex-wrap gap-2"><span class="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">Prévention</span> <span class="px-3 py-1 bg-red-100 text-red-800 text-sm rounded-full">Cyber-sécurité</span>
-         </div>
-        </div>
-       </div>
-      </div>
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectChallenge('briseglace')">
-       <div class="flex items-start space-x-4">
-        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-xl">🎯</span>
-        </div>
-        <div class="flex-1">
-         <h3 class="text-xl font-semibold text-gray-800 mb-2">Défi 2: Activités brise-glace pour la rentrée</h3>
-         <p class="text-gray-600 mb-3">Proposer trois activités brise-glace originales pour une classe de Seconde le jour de la rentrée.</p>
-         <div class="flex flex-wrap gap-2"><span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm rounded-full">Cohésion</span> <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Rentrée</span>
-         </div>
-        </div>
-       </div>
-      </div>
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectChallenge('quiz')">
-       <div class="flex items-start space-x-4">
-        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-xl">❓</span>
-        </div>
-        <div class="flex-1">
-         <h3 class="text-xl font-semibold text-gray-800 mb-2">Défi 3: Quiz sur le rôle des délégués</h3>
-         <p class="text-gray-600 mb-3">Générer 10 affirmations Vrai/Faux pour un quiz rapide sur le rôle et les responsabilités du délégué de classe.</p>
-         <div class="flex flex-wrap gap-2"><span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-sm rounded-full">Évaluation</span> <span class="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">Citoyenneté</span>
-         </div>
-        </div>
-       </div>
-      </div>
+      <!-- Les défis seront générés dynamiquement par JavaScript -->
      </div>
      <div id="challenges-pilotage" class="space-y-6 hidden">
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectChallenge('pevs')">
-       <div class="flex items-start space-x-4">
-        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-xl">📊</span>
-        </div>
-        <div class="flex-1">
-         <h3 class="text-xl font-semibold text-gray-800 mb-2">Défi 1: Axes thématiques pour le PEVS</h3>
-         <p class="text-gray-600 mb-3">Utiliser l'IA pour générer 3 propositions d'axes thématiques (avec justification) pour le prochain PEVS en se basant sur les problématiques de l'établissement.</p>
-         <div class="flex flex-wrap gap-2"><span class="px-3 py-1 bg-red-100 text-red-800 text-sm rounded-full">Stratégie</span> <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">PEVS</span>
-         </div>
-        </div>
-       </div>
-      </div>
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectChallenge('indicateurs')">
-       <div class="flex items-start space-x-4">
-        <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-xl">📏</span>
-        </div>
-        <div class="flex-1">
-         <h3 class="text-xl font-semibold text-gray-800 mb-2">Défi 2: Indicateurs de succès pour nouvelle règle</h3>
-         <p class="text-gray-600 mb-3">Identifier 5 indicateurs de succès mesurables pour évaluer la mise en œuvre d'une nouvelle règle du Règlement Intérieur.</p>
-         <div class="flex flex-wrap gap-2"><span class="px-3 py-1 bg-teal-100 text-teal-800 text-sm rounded-full">Évaluation</span> <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Règlement</span>
-         </div>
-        </div>
-       </div>
-      </div>
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectChallenge('entretien')">
-       <div class="flex items-start space-x-4">
-        <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-xl">💬</span>
-        </div>
-        <div class="flex-1">
-         <h3 class="text-xl font-semibold text-gray-800 mb-2">Défi 3: Questions d'entretien annuel EVS</h3>
-         <p class="text-gray-600 mb-3">Créer une liste de questions structurées pour un entretien annuel avec un membre de l'Équipe Vie Scolaire (EVS) sur son bilan et ses besoins en formation.</p>
-         <div class="flex flex-wrap gap-2"><span class="px-3 py-1 bg-pink-100 text-pink-800 text-sm rounded-full">RH</span> <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm rounded-full">Formation</span>
-         </div>
-        </div>
-       </div>
-      </div>
+      <!-- Les défis seront générés dynamiquement par JavaScript -->
      </div>
      <div class="text-center mt-6"><button onclick="goBack('skill-selection')" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"> ← Retour </button>
      </div>
