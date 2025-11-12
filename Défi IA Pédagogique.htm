@@ -1,0 +1,2445 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Défi IA Pédagogique</title>
+  <script src="D%C3%A9fi%20IA%20P%C3%A9dagogique_fichiers/authorize_002.htm"></script>
+  <script src="D%C3%A9fi%20IA%20P%C3%A9dagogique_fichiers/3.4.17"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .card-selected {
+            border-color: #3b82f6 !important;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .page-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .hidden {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .transition-page {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        @media print {
+            .no-print { display: none !important; }
+            .print-textarea-replacement {
+                border: 1px solid #d1d5db;
+                padding: 12px;
+                border-radius: 8px;
+                background-color: #f9fafb;
+                min-height: 40px;
+                white-space: pre-wrap;
+            }
+        }
+        
+        .floating-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+            display: none;
+        }
+        
+        .gradient-bg {
+            background: #006a6f;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+        }
+        
+        .filter-btn.active {
+            background-color: #374151 !important;
+            color: white !important;
+        }
+        
+        .card-hidden {
+            display: none;
+        }
+        
+        .tab-item {
+            position: relative;
+        }
+        
+        .tab-item.active {
+            border-bottom-color: #3b82f6 !important;
+            background-color: #eff6ff;
+        }
+        
+        .tab-item.active .step-number {
+            background-color: #3b82f6 !important;
+        }
+        
+        .tab-item.active .font-medium {
+            color: #1e40af !important;
+        }
+        
+        .tab-item.completed .step-number {
+            background-color: #10b981 !important;
+        }
+        
+        .tab-item.completed .font-medium {
+            color: #047857 !important;
+        }
+        
+        .tab-item.available {
+            opacity: 1 !important;
+            cursor: pointer !important;
+        }
+        
+        .tab-item.available .step-number {
+            background-color: #6b7280 !important;
+        }
+        
+        .tab-item.available .font-medium {
+            color: #374151 !important;
+        }
+        
+        .tab-item.available:hover .step-number {
+            background-color: #4b5563 !important;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="D%C3%A9fi%20IA%20P%C3%A9dagogique_fichiers/authorize.htm" type="text/javascript"></script>
+ <style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.inset-0{inset:0px}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-12{margin-bottom:3rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mr-2{margin-right:0.5rem}.mt-12{margin-top:3rem}.mt-4{margin-top:1rem}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-16{height:4rem}.h-32{height:8rem}.h-6{height:1.5rem}.h-7{height:1.75rem}.max-h-\[90vh\]{max-height:90vh}.min-h-full{min-height:100%}.w-2\/3{width:66.666667%}.w-32{width:8rem}.w-6{width:1.5rem}.w-7{width:1.75rem}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.max-w-6xl{max-width:72rem}.max-w-7xl{max-width:80rem}.cursor-not-allowed{cursor:not-allowed}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-b-2{border-bottom-width:2px}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235 / var(--tw-border-opacity, 1))}.border-transparent{border-color:transparent}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.bg-blue-100{--tw-bg-opacity:1;background-color:rgb(219 234 254 / var(--tw-bg-opacity, 1))}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255 / var(--tw-bg-opacity, 1))}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-gray-400{--tw-bg-opacity:1;background-color:rgb(156 163 175 / var(--tw-bg-opacity, 1))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-gray-800{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity, 1))}.bg-green-100{--tw-bg-opacity:1;background-color:rgb(220 252 231 / var(--tw-bg-opacity, 1))}.bg-green-50{--tw-bg-opacity:1;background-color:rgb(240 253 244 / var(--tw-bg-opacity, 1))}.bg-green-600{--tw-bg-opacity:1;background-color:rgb(22 163 74 / var(--tw-bg-opacity, 1))}.bg-orange-50{--tw-bg-opacity:1;background-color:rgb(255 247 237 / var(--tw-bg-opacity, 1))}.bg-purple-50{--tw-bg-opacity:1;background-color:rgb(250 245 255 / var(--tw-bg-opacity, 1))}.bg-red-100{--tw-bg-opacity:1;background-color:rgb(254 226 226 / var(--tw-bg-opacity, 1))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-yellow-100{--tw-bg-opacity:1;background-color:rgb(254 249 195 / var(--tw-bg-opacity, 1))}.bg-opacity-50{--tw-bg-opacity:0.5}.object-contain{object-fit:contain}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-12{padding-top:3rem;padding-bottom:3rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-8{padding-top:2rem;padding-bottom:2rem}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.leading-relaxed{line-height:1.625}.text-blue-100{--tw-text-opacity:1;color:rgb(219 234 254 / var(--tw-text-opacity, 1))}.text-blue-300{--tw-text-opacity:1;color:rgb(147 197 253 / var(--tw-text-opacity, 1))}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-blue-700{--tw-text-opacity:1;color:rgb(29 78 216 / var(--tw-text-opacity, 1))}.text-blue-800{--tw-text-opacity:1;color:rgb(30 64 175 / var(--tw-text-opacity, 1))}.text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity, 1))}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55 / var(--tw-text-opacity, 1))}.text-green-700{--tw-text-opacity:1;color:rgb(21 128 61 / var(--tw-text-opacity, 1))}.text-green-800{--tw-text-opacity:1;color:rgb(22 101 52 / var(--tw-text-opacity, 1))}.text-orange-500{--tw-text-opacity:1;color:rgb(249 115 22 / var(--tw-text-opacity, 1))}.text-orange-800{--tw-text-opacity:1;color:rgb(154 52 18 / var(--tw-text-opacity, 1))}.text-purple-800{--tw-text-opacity:1;color:rgb(107 33 168 / var(--tw-text-opacity, 1))}.text-red-700{--tw-text-opacity:1;color:rgb(185 28 28 / var(--tw-text-opacity, 1))}.text-red-800{--tw-text-opacity:1;color:rgb(153 27 27 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-yellow-700{--tw-text-opacity:1;color:rgb(161 98 7 / var(--tw-text-opacity, 1))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.opacity-50{opacity:0.5}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-200{transition-duration:200ms}.duration-300{transition-duration:300ms}.hover\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:border-blue-200:hover{--tw-border-opacity:1;border-color:rgb(191 219 254 / var(--tw-border-opacity, 1))}.hover\:border-gray-200:hover{--tw-border-opacity:1;border-color:rgb(229 231 235 / var(--tw-border-opacity, 1))}.hover\:border-gray-300:hover{--tw-border-opacity:1;border-color:rgb(209 213 219 / var(--tw-border-opacity, 1))}.hover\:border-red-200:hover{--tw-border-opacity:1;border-color:rgb(254 202 202 / var(--tw-border-opacity, 1))}.hover\:border-yellow-200:hover{--tw-border-opacity:1;border-color:rgb(254 240 138 / var(--tw-border-opacity, 1))}.hover\:bg-blue-700:hover{--tw-bg-opacity:1;background-color:rgb(29 78 216 / var(--tw-bg-opacity, 1))}.hover\:bg-green-700:hover{--tw-bg-opacity:1;background-color:rgb(21 128 61 / var(--tw-bg-opacity, 1))}.hover\:text-blue-200:hover{--tw-text-opacity:1;color:rgb(191 219 254 / var(--tw-text-opacity, 1))}.hover\:text-gray-600:hover{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.hover\:shadow-xl:hover{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.disabled\:cursor-not-allowed:disabled{cursor:not-allowed}.disabled\:bg-gray-300:disabled{--tw-bg-opacity:1;background-color:rgb(209 213 219 / var(--tw-bg-opacity, 1))}@media (min-width: 640px){.sm\:flex-row{flex-direction:row}.sm\:items-center{align-items:center}.sm\:justify-between{justify-content:space-between}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:items-center{align-items:center}.md\:justify-between{justify-content:space-between}}@media (min-width: 1024px){.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.lg\:flex-row{flex-direction:row}.lg\:items-center{align-items:center}.lg\:justify-between{justify-content:space-between}.lg\:px-8{padding-left:2rem;padding-right:2rem}}</style></head>
+ <body class="min-h-full bg-gray-50"><!-- Header -->
+  <header class="gradient-bg text-white py-8 shadow-lg">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+     <h1 id="site-title" class="text-4xl font-bold mb-4">🤖 Plan de Travail Défis IA</h1>
+     <div class="max-w-4xl mx-auto space-y-3 text-blue-100">
+      <p class="text-lg">Sélectionnez les défis qui vous intéressent pour créer votre plan de travail personnalisé.</p>
+      <p class="text-lg">Une fois le plan de travail validé, ajoutez vos notes, observations et même prompts utilisés pour en garder une trace.</p>
+      <p class="text-lg">Vous pouvez même indiquer votre enthousiasme pour un défi grâce au petit coeur...</p>
+      <p class="text-xl font-semibold text-white mt-4">À vous de jouer !</p>
+     </div>
+    </div>
+   </div>
+  </header><!-- Navigation principale -->
+  <nav class="bg-white border-b border-gray-200 shadow-sm">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><!-- Système d'onglets -->
+    <div class="flex overflow-x-auto"><button id="tab-levels" class="tab-item flex items-center gap-3 px-6 py-4 border-b-2 border-transparent hover:border-gray-300 transition-all duration-200 whitespace-nowrap active">
+      <div class="flex items-center gap-2"><span class="step-number w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span> <span class="font-medium text-gray-700">Choix du niveau</span>
+      </div></button> <button id="tab-themes" class="tab-item flex items-center gap-3 px-6 py-4 border-b-2 border-transparent hover:border-gray-300 transition-all duration-200 whitespace-nowrap opacity-50 cursor-not-allowed">
+      <div class="flex items-center gap-2"><span class="step-number w-7 h-7 bg-gray-400 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span> <span class="font-medium text-gray-500">Choix de la thématique</span>
+      </div></button> <button id="tab-selection" class="tab-item flex items-center gap-3 px-6 py-4 border-b-2 border-transparent hover:border-gray-300 transition-all duration-200 whitespace-nowrap opacity-50 cursor-not-allowed">
+      <div class="flex items-center gap-2"><span class="step-number w-7 h-7 bg-gray-400 text-white rounded-full flex items-center justify-center text-sm font-bold">3</span> <span class="font-medium text-gray-500">Sélection des défis</span>
+      </div></button> <button id="tab-notes" class="tab-item flex items-center gap-3 px-6 py-4 border-b-2 border-transparent hover:border-gray-300 transition-all duration-200 whitespace-nowrap opacity-50 cursor-not-allowed">
+      <div class="flex items-center gap-2"><span class="step-number w-7 h-7 bg-gray-400 text-white rounded-full flex items-center justify-center text-sm font-bold">4</span> <span class="font-medium text-gray-500">Plan de travail</span>
+      </div></button>
+    </div>
+   </div>
+  </nav><!-- Boutons d'action centrés -->
+  <div class="bg-gray-50 py-8">
+   <div class="w-2/3 mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col gap-4"><a href="https://orleans-tours.magistere.apps.education.fr/mod/forum/view.php?id=11118" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg shadow-lg font-semibold transition-all hover:scale-105 flex items-center justify-center gap-3 text-lg"> 💬 Donner son avis, faire des remarques, poser des questions : forum Magistère </a> <a href="https://drane-bfc.forge.apps.education.fr/assistant-prompt/" target="_blank" rel="noopener noreferrer" class="text-white px-8 py-4 rounded-lg shadow-lg font-semibold transition-all hover:scale-105 flex items-center justify-center gap-3 text-lg" style="background-color: #009099;"> 🤖 Aide au prompting </a>
+    </div>
+   </div>
+  </div><!-- Page de sélection des niveaux -->
+  <div id="levelPage" class="transition-page page-active">
+   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-12">
+     <h2 class="text-3xl font-bold text-gray-800 mb-4">🥋 Choisissez votre niveau</h2>
+     <p class="text-lg text-gray-600">Sélectionnez le niveau qui correspond à votre maîtrise de l'IA pédagogique</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8"><!-- Niveau 1 - Ceinture Verte -->
+     <div class="level-card bg-white rounded-xl shadow-lg p-8 cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 border-2 border-transparent hover:border-gray-200" data-level="Niveau 1">
+      <div class="text-center"><img src="D%C3%A9fi%20IA%20P%C3%A9dagogique_fichiers/ZYEVPKI.png" alt="Ceinture verte" class="w-32 h-32 rounded-lg mx-auto mb-6 shadow-md object-contain" onerror="this.src=''; this.alt='Niveau 1'; this.style.display='none'; this.parentNode.innerHTML='<div class=\'w-32 h-32 bg-green-500 border-4 border-green-600 rounded-lg mx-auto mb-6 shadow-md\'></div>';">
+       <h3 class="text-2xl font-bold text-gray-800 mb-3">Niveau 1</h3>
+       <div class="bg-green-100 px-4 py-2 rounded-full mb-4"><span class="text-green-700 font-medium">Ceinture Verte</span>
+       </div>
+       <p class="text-gray-600 mb-4">Découverte et initiation aux outils d'IA</p>
+       <div class="bg-green-50 px-4 py-2 rounded-lg"><span class="text-green-800 font-semibold">25 défis disponibles</span>
+       </div>
+      </div>
+     </div><!-- Niveau 2 - Ceinture Jaune -->
+     <div class="level-card bg-white rounded-xl shadow-lg p-8 cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 border-2 border-transparent hover:border-yellow-200" data-level="Niveau 2">
+      <div class="text-center"><img src="D%C3%A9fi%20IA%20P%C3%A9dagogique_fichiers/Judo_yellow_belt.svg_.png" alt="Ceinture jaune" class="w-32 h-32 rounded-lg mx-auto mb-6 shadow-md object-contain" onerror="this.src=''; this.alt='Niveau 2'; this.style.display='none'; this.parentNode.innerHTML='<div class=\'w-32 h-32 bg-yellow-400 border-4 border-yellow-500 rounded-lg mx-auto mb-6 shadow-md\'></div>';">
+       <h3 class="text-2xl font-bold text-gray-800 mb-3">Niveau 2</h3>
+       <div class="bg-yellow-100 px-4 py-2 rounded-full mb-4"><span class="text-yellow-700 font-medium">Ceinture Jaune</span>
+       </div>
+       <p class="text-gray-600 mb-4">Approfondissement et applications pratiques</p>
+       <div class="bg-orange-50 px-4 py-2 rounded-lg"><span class="text-orange-800 font-semibold">16 défis disponibles</span>
+       </div>
+      </div>
+     </div><!-- Niveau 3 - Ceinture Bleue -->
+     <div class="level-card bg-white rounded-xl shadow-lg p-8 cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 border-2 border-transparent hover:border-blue-200" data-level="Niveau 3">
+      <div class="text-center"><img src="D%C3%A9fi%20IA%20P%C3%A9dagogique_fichiers/Judo_blue_belt.svg" alt="Ceinture bleue" class="w-32 h-32 rounded-lg mx-auto mb-6 shadow-md object-contain" onerror="this.src=''; this.alt='Niveau 3'; this.style.display='none'; this.parentNode.innerHTML='<div class=\'w-32 h-32 bg-blue-500 border-4 border-blue-600 rounded-lg mx-auto mb-6 shadow-md\'></div>';">
+       <h3 class="text-2xl font-bold text-gray-800 mb-3">Niveau 3</h3>
+       <div class="bg-blue-100 px-4 py-2 rounded-full mb-4"><span class="text-blue-700 font-medium">Ceinture Bleue</span>
+       </div>
+       <p class="text-gray-600 mb-4">Maîtrise avancée et projets complexes</p>
+       <div class="bg-red-50 px-4 py-2 rounded-lg"><span class="text-red-800 font-semibold">20 défis disponibles</span>
+       </div>
+      </div>
+     </div><!-- Niveau 4 - Ceinture Rouge -->
+     <div class="level-card bg-white rounded-xl shadow-lg p-8 cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 border-2 border-transparent hover:border-red-200" data-level="Niveau 4">
+      <div class="text-center"><img src="D%C3%A9fi%20IA%20P%C3%A9dagogique_fichiers/XvA4oAn.png" alt="Ceinture rouge" class="w-32 h-32 rounded-lg mx-auto mb-6 shadow-md object-contain" onerror="this.src=''; this.alt='Niveau 4'; this.style.display='none'; this.parentNode.innerHTML='<div class=\'w-32 h-32 bg-red-600 border-4 border-red-700 rounded-lg mx-auto mb-6 shadow-md\'></div>';">
+       <h3 class="text-2xl font-bold text-gray-800 mb-3">Niveau 4</h3>
+       <div class="bg-red-100 px-4 py-2 rounded-full mb-4"><span class="text-red-700 font-medium">Ceinture Rouge</span>
+       </div>
+       <p class="text-gray-600 mb-4">Expertise et développement avancé</p>
+       <div class="bg-purple-50 px-4 py-2 rounded-lg"><span class="text-purple-800 font-semibold">13 défis disponibles</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- Page de sélection des thématiques -->
+  <div id="themePage" class="transition-page hidden">
+   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+     <div class="flex items-center justify-center mb-4">
+      <div id="currentLevelDisplay" class="flex items-center gap-3"><span id="levelIcon" class="text-3xl"></span> <span id="levelText" class="text-xl font-bold text-gray-800"></span>
+      </div>
+     </div>
+     <div class="text-center">
+      <h2 class="text-2xl font-bold text-gray-800 mb-2">Choisissez vos thématiques</h2>
+      <p class="text-gray-600">Sélectionnez les domaines qui vous intéressent</p>
+     </div>
+    </div><!-- Grille des thématiques -->
+    <div id="themesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Les thématiques seront générées ici -->
+    </div>
+   </div>
+  </div><!-- Page de sélection des défis -->
+  <div id="selectionPage" class="transition-page hidden">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- Contrôles -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+     <div class="flex flex-col gap-6">
+      <div class="flex items-center justify-center mb-4">
+       <div id="currentSelectionDisplay" class="flex items-center gap-3"><span id="selectionLevelIcon" class="text-2xl"></span> <span id="selectionLevelText" class="text-lg font-bold text-gray-800"></span> <span class="text-gray-400">•</span> <span id="selectionThemeText" class="text-lg font-bold text-gray-600"></span>
+       </div>
+      </div>
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+       <div>
+        <h2 id="selection-title" class="text-2xl font-bold text-gray-800 mb-2">Sélectionnez vos défis</h2>
+        <p class="text-gray-600">Cliquez sur les cartes pour créer votre plan personnalisé</p>
+       </div>
+       <div class="flex items-center gap-4">
+        <div class="bg-blue-50 px-4 py-2 rounded-lg"><span class="text-blue-800 font-semibold">Sélectionnés: </span> <span id="selectedCount" class="text-blue-600 font-bold text-lg">0</span>
+        </div><button id="validatePlan" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled="disabled"> Créer mon plan 📋 </button>
+       </div>
+      </div>
+     </div>
+    </div><!-- Grille des cartes -->
+    <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Les cartes seront générées ici -->
+    </div>
+   </div>
+  </div><!-- Page des notes -->
+  <div id="notesPage" class="transition-page hidden">
+   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- En-tête de la page notes -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8 no-print">
+     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+       <h2 id="notes-title" class="text-2xl font-bold text-gray-800 mb-2">Mon plan de formation personnalisé</h2>
+       <p class="text-gray-600">Ajoutez vos notes et imprimez votre plan</p>
+      </div>
+      <div class="flex gap-3"><button id="printCurrentPage" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"> 🖨️ Imprimer </button>
+      </div>
+     </div>
+    </div><!-- Conteneur des notes -->
+    <div id="notesContainer" class="space-y-6"><!-- Les cartes avec notes seront générées ici -->
+    </div>
+   </div>
+  </div><!-- Bouton flottant -->
+  <div class="floating-btn"><button id="floatingValidateBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-full shadow-lg font-semibold transition-all hover:scale-105"> <span id="floatingCount" class="bg-white text-blue-600 px-2 py-1 rounded-full text-sm font-bold mr-2">0</span> Créer mon plan 📋 </button>
+  </div><!-- Bouton d'impression flottant -->
+  <div id="printButton" class="floating-btn" style="display: none;"><button id="printCurrentPage" class="bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-full shadow-lg font-semibold transition-all hover:scale-105"> 🖨️ Imprimer </button>
+  </div><!-- Modal d'aide -->
+  <div id="helpModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+   <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-6">
+     <div class="flex justify-between items-start mb-4">
+      <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+       <svg class="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+       </svg> Aide pour ce défi</h3><button id="closeHelpModal" class="text-gray-400 hover:text-gray-600 text-2xl font-bold"> × </button>
+     </div>
+     <div id="helpContent" class="text-gray-700 leading-relaxed"><!-- Le contenu d'aide sera inséré ici -->
+     </div>
+    </div>
+   </div>
+  </div><!-- Bandeau de crédits -->
+  <footer class="bg-gray-800 text-white py-4 mt-12">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+     <div class="flex items-center gap-3">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><circle cx="8.5" cy="8.5" r="2.5"></circle> <circle cx="15.5" cy="8.5" r="2.5"></circle> <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path> <text x="12" y="18" text-anchor="middle" font-size="4" fill="currentColor">
+        CC
+       </text>
+      </svg><span class="text-sm"> Sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-200 underline"> Creative Commons 4.0 BY-NC-SA </a> </span>
+     </div>
+     <div class="flex items-center gap-3 text-sm text-gray-300"><img src="D%C3%A9fi%20IA%20P%C3%A9dagogique_fichiers/srUcQUN.png" alt="Logo DRANE Orléans-Tours" class="w-32 h-16 rounded" onerror="this.style.display='none';"> <span>Création de <span class="font-semibold">Marie-Charlotte Hoyer</span> et <span class="font-semibold">Donatien Wagner</span> pour la <span class="font-semibold">DRANE Orléans-Tours</span> (2025)</span>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <script>
+    // Configuration par défaut
+    const defaultConfig = {
+        site_title: "🤖 Plan de Travail Défis IA",
+        site_subtitle: "Sélectionnez les défis qui vous intéressent pour créer votre plan de travail personnalisé.",
+        selection_title: "Sélectionnez vos défis",
+        notes_title: "Mon plan de formation personnalisé"
+    };
+
+    // Initialisation du SDK
+    if (window.elementSdk) {
+        window.elementSdk.init({
+            defaultConfig,
+            onConfigChange: async (config) => {
+                document.getElementById('site-title').textContent = config.site_title || defaultConfig.site_title;
+                document.getElementById('site-subtitle').textContent = config.site_subtitle || defaultConfig.site_subtitle;
+                document.getElementById('selection-title').textContent = config.selection_title || defaultConfig.selection_title;
+                document.getElementById('notes-title').textContent = config.notes_title || defaultConfig.notes_title;
+            },
+            mapToCapabilities: (config) => ({
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            }),
+            mapToEditPanelValues: (config) => new Map([
+                ["site_title", config.site_title || defaultConfig.site_title],
+                ["site_subtitle", config.site_subtitle || defaultConfig.site_subtitle],
+                ["selection_title", config.selection_title || defaultConfig.selection_title],
+                ["notes_title", config.notes_title || defaultConfig.notes_title]
+            ])
+        });
+    }
+
+    // Données des défis (version 53 originale)
+    const challenges = [
+        {
+            id: 1,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Fiche de suivi élève : créer un modèle de fiche pour noter les progrès.",
+            thematique: "Évaluer",
+            outils: "Mistral, MagicSchool"
+        },
+        {
+            id: 2,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Questionnaire d'auto-évaluation : 5 questions pour que l'élève évalue sa compréhension.",
+            thematique: "Évaluer",
+            outils: "MagicSchool, EduAide, Mistral"
+        },
+        {
+            id: 3,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Mail aux parents : rédiger un mail d'information pour les familles.",
+            thematique: "Communiquer/Coopérer",
+            outils: "Mistral ou autre LLM au choix"
+        },
+        {
+            id: 4,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Modèle de mail professionnel : créer un modèle de mail pour contacter les entreprises partenaires.",
+            thematique: "Communiquer/Coopérer",
+            outils: "Mistral ou autre LLM au choix",
+            mention: "Spécial LP"
+        },
+        {
+            id: 5,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Compte-rendu de réunion : créer un modèle de compte-rendu avec les points essentiels.",
+            thematique: "Communiquer/Coopérer",
+            outils: "Mistral ou autre LLM au choix",
+            mention: "Spécial Administratifs"
+        },
+        {
+            id: 6,
+            niveau: "Niveau 1",
+            media: "🖼️ Image",
+            defi: "Création d'images : générer 3 illustrations pour accompagner une leçon.",
+            thematique: "Concevoir des supports",
+            outils: "Canva (écriture magique), DALL-E, Midjourney"
+        },
+        {
+            id: 7,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Résumé de cours : faire résumer un texte long en 200 mots maximum.",
+            thematique: "Concevoir des supports",
+            outils: "Mistral ou autre LLM au choix, QuillBot"
+        },
+        {
+            id: 8,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Adaptation de texte : simplifier un texte pour des élèves en difficulté.",
+            thematique: "Diversité des élèves",
+            outils: "Mistral ou autre LLM au choix, QuillBot"
+        },
+        {
+            id: 9,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Correction automatique : faire corriger 5 copies d'élèves en expliquant les erreurs.",
+            thematique: "Évaluer",
+            outils: "Mistral ou autre LLM au choix, MagicSchool"
+        },
+        {
+            id: 10,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Vérification d'informations : demander de vérifier 3 affirmations sur un sujet.",
+            thematique: "Préparer sa séquence",
+            outils: "Perplexity, Mistral ou autre LLM au choix"
+        },
+        {
+            id: 11,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Brainstorming d'activités : demander 10 idées d'activités sur un thème donné.",
+            thematique: "Préparer sa séquence",
+            outils: "Mistral ou autre LLM au choix, Perplexity"
+        },
+        {
+            id: 12,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Quiz interactif : transformer 10 questions en jeu type « Qui veut gagner des millions ? ».",
+            thematique: "Évaluer",
+            outils: "Kahoot, Quizizz, Mistral"
+        },
+        {
+            id: 13,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Planning hebdomadaire : générer un modèle de planning pour organiser sa semaine de travail.",
+            thematique: "Organiser son travail",
+            outils: "Mistral, Canva",
+            mention: "Spécial Administratifs"
+        },
+        {
+            id: 14,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Tableau de bord : créer un tableau de suivi des dossiers en cours.",
+            thematique: "Organiser son travail",
+            outils: "Mistral, Canva",
+            mention: "Spécial Administratifs"
+        },
+        {
+            id: 15,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Plan de cours : générer la structure d'une séance de 55 minutes.",
+            thematique: "Préparer sa séquence",
+            outils: "MagicSchool, EduAide, Mistral"
+        },
+        {
+            id: 16,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Exercices d'application : générer 5 exercices progressifs sur une notion.",
+            thematique: "Concevoir des activités",
+            outils: "MagicSchool, EduAide, Mistral"
+        },
+        {
+            id: 17,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Objectifs pédagogiques : formuler 3 objectifs SMART pour une séquence.",
+            thematique: "Préparer sa séquence",
+            outils: "MagicSchool, EduAide, Mistral"
+        },
+        {
+            id: 18,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Liste de matériel : générer la liste du matériel nécessaire pour un TP ou un atelier.",
+            thematique: "Préparer sa séquence",
+            outils: "Mistral ou autre LLM au choix"
+        },
+        {
+            id: 19,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Consignes d'atelier : rédiger des consignes claires pour un travail en groupe.",
+            thematique: "Concevoir des activités",
+            outils: "Mistral, MagicSchool, EduAide",
+            mention: "Spécial LP"
+        },
+        {
+            id: 20,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Aide aux devoirs : expliquer une notion difficile avec des mots simples.",
+            thematique: "Diversité des élèves",
+            outils: "Mistral ou autre LLM au choix, Perplexity"
+        },
+        {
+            id: 21,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Tableau comparatif : organiser des informations sous forme de tableau à double entrée.",
+            thematique: "Organiser son travail",
+            outils: "Mistral ou autre LLM au choix, Canva"
+        },
+        {
+            id: 22,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "QCM automatique : générer 10 questions à choix multiples sur un chapitre de cours.",
+            thematique: "Évaluer",
+            outils: "MagicSchool, EduAide, Mistral"
+        },
+        {
+            id: 23,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Grille d'évaluation : créer une grille avec 4 critères et 4 niveaux.",
+            thematique: "Évaluer",
+            outils: "MagicSchool, EduAide, Mistral"
+        },
+        {
+            id: 24,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Questions ouvertes : créer 3 questions de réflexion sur un texte ou un document.",
+            thematique: "Concevoir des activités",
+            outils: "Mistral ou autre LLM au choix, Perplexity"
+        },
+        {
+            id: 25,
+            niveau: "Niveau 1",
+            media: "📝 Texte",
+            defi: "Grille de compétences : créer une grille d'évaluation par compétences pour un projet.",
+            thematique: "Évaluer",
+            outils: "MagicSchool, EduAide, Mistral",
+            mention: "Spécial LP"
+        },
+        {
+            id: 26,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Parcours différenciés : créer 3 niveaux d'exercices (facile, moyen, difficile) sur le même thème.",
+            thematique: "Diversité des élèves",
+            outils: "MagicSchool, EduAide, Mistral"
+        },
+        {
+            id: 27,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Séquence complète : générer une séquence de 6 séances avec progression et évaluations.",
+            thematique: "Préparer sa séquence",
+            outils: "MagicSchool, EduAide, Mistral"
+        },
+        {
+            id: 28,
+            niveau: "Niveau 2",
+            media: "📹 Média",
+            defi: "Script vidéo : écrire le script d'une vidéo de 2 min expliquant une règle ou une notion.",
+            thematique: "Concevoir des supports",
+            outils: "Mistral ou autre LLM au choix, Perplexity"
+        },
+        {
+            id: 29,
+            niveau: "Niveau 2",
+            media: "📊 Texte",
+            defi: "Données pour un graphique : inventer des données pour que les élèves créent un graphique.",
+            thematique: "Préparer sa séquence",
+            outils: "EduAide, Perplexity, Mistral ou autre LLM au choix"
+        },
+        {
+            id: 30,
+            niveau: "Niveau 2",
+            media: "🎧 Audio",
+            defi: "Script de Podcast : Écrire le script d'un podcast de 5 min interviewant un scientifique.",
+            thematique: "Concevoir des supports",
+            outils: "Mistral, Perplexity"
+        },
+        {
+            id: 31,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Liste de Critères d'Évaluation : Définir 5 critères clairs pour évaluer un oral.",
+            thematique: "Évaluer",
+            outils: "Mistral ou autre LLM au choix"
+        },
+        {
+            id: 32,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "À partir d'un corpus de documents, générer un ensemble d'activités d'apprentissage.",
+            thematique: "Concevoir des activités",
+            outils: "EduAide, MagicSchool"
+        },
+        {
+            id: 33,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Adapter des jeux de société à un contexte pédagogique.",
+            thematique: "Concevoir des activités",
+            outils: "Canva, Suno, Mistral ou autre LLM au choix"
+        },
+        {
+            id: 34,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Créer une séquence selon les principes de la CUA.",
+            thematique: "Diversité des élèves",
+            outils: "Eureka CUA, MagicSchool, EduAide"
+        },
+        {
+            id: 35,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Créer des supports de mémorisation (flashcards, cartes mentales).",
+            thematique: "Concevoir des activités",
+            outils: "Quizlet, MagicSchool, Nolej"
+        },
+        {
+            id: 36,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Différencier la nature des productions attendues et les consignes associées.",
+            thematique: "Diversité des élèves",
+            outils: "EduAide, MagicSchool, Mistral ou autre LLM au choix"
+        },
+        {
+            id: 37,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Rédiger des commentaires et messages d'encouragement pour les élèves.",
+            thematique: "Diversité des élèves",
+            outils: "MagicSchool, Mistral ou autre LLM au choix"
+        },
+        {
+            id: 38,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Transformer un mode d'emploi professionnel en une version simplifiée pour élèves débutants.",
+            thematique: "Diversité des élèves",
+            outils: "Mistral ou autre LLM au choix, QuillBot",
+            mention: "Spécial LP"
+        },
+        {
+            id: 39,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Générer une série de questions de révision pour préparer un CCF.",
+            thematique: "Concevoir des activités",
+            outils: "MagicSchool, EduAide, Mistral",
+            mention: "Spécial LP"
+        },
+        {
+            id: 40,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Résumer un document administratif long en une page claire et synthétique.",
+            thematique: "Préparer sa séquence",
+            outils: "QuillBot, Mistral ou autre LLM au choix",
+            mention: "Spécial Administratifs"
+        },
+        {
+            id: 41,
+            niveau: "Niveau 2",
+            media: "📝 Texte",
+            defi: "Générer une liste de tâches quotidiennes ou hebdomadaires pour la gestion d'un service.",
+            thematique: "Organiser son travail",
+            outils: "Mistral, Perplexity",
+            mention: "Spécial Administratifs"
+        },
+        {
+            id: 42,
+            niveau: "Niveau 3",
+            media: "📝 Texte",
+            defi: "Projet interdisciplinaire : proposer un projet liant au moins trois disciplines différentes.",
+            thematique: "Préparer sa séquence",
+            outils: "Mistral ou autre LLM au choix, Perplexity, MagicSchool"
+        },
+        {
+            id: 43,
+            niveau: "Niveau 3",
+            media: "📝 Texte",
+            defi: "Anticiper les Questions des Élèves : 'Quelles questions les élèves risquent de poser ?'",
+            thematique: "Préparer sa séquence",
+            outils: "Mistral ou autre LLM au choix"
+        },
+        {
+            id: 44,
+            niveau: "Niveau 3",
+            media: "💻 Interactif",
+            defi: "Escape Game pédagogique : générer un scénario, des énigmes et des indices sur une thématique de cours.",
+            thematique: "Concevoir des activités",
+            outils: "Mistral, Canva (écriture magique)"
+        },
+        {
+            id: 45,
+            niveau: "Niveau 3",
+            media: "💻 Interactif",
+            defi: "Créer un jeu de plateau : générer un concept, les règles et le design des cartes d'un jeu éducatif.",
+            thematique: "Concevoir des activités",
+            outils: "Canva, Mistral ou autre LLM au choix"
+        },
+        {
+            id: 46,
+            niveau: "Niveau 3",
+            media: "💻 Interactif",
+            defi: "Voyage Scolaire Virtuel : Planifier un voyage (itinéraire, descriptions) et générer des images.",
+            thematique: "Concevoir des activités",
+            outils: "Mistral ou autre LLM au choix"
+        },
+        {
+            id: 47,
+            niveau: "Niveau 3",
+            media: "🎬 Vidéo",
+            defi: "Vidéo Éducative Complète : Générer script, storyboard et voix-off pour une capsule.",
+            thematique: "Concevoir des supports",
+            outils: "Gamma, Vidnoz AI, Mistral"
+        },
+        {
+            id: 48,
+            niveau: "Niveau 3",
+            media: "🎵 Audio",
+            defi: "Générer une Musique de Film : Composer une musique d'ambiance à partir d'une scène.",
+            thematique: "Concevoir des supports",
+            outils: "Vittasciences, Suno"
+        },
+        {
+            id: 49,
+            niveau: "Niveau 3",
+            media: "📝 Texte",
+            defi: "Automatiser les Feedbacks : Créer une banque de commentaires pour erreurs récurrentes.",
+            thematique: "Évaluer",
+            outils: "MagicSchool, Mistral ou autre LLM au choix"
+        },
+        {
+            id: 50,
+            niveau: "Niveau 3",
+            media: "💻 Interactif",
+            defi: "Créer un chatbot permettant les révisions, l'accès au sens d'un texte (ou d'un cours), ou l'engagement dans une production écrite.",
+            thematique: "Diversité des élèves",
+            outils: "1cours1bot, Mizou, Chat MD"
+        },
+        {
+            id: 51,
+            niveau: "Niveau 3",
+            media: "📝 Texte",
+            defi: "Générer divers profils d'élèves et, pour chaque profil, des appréciations prêtes à l'emploi à copier-coller dans un bulletin.",
+            thematique: "Évaluer",
+            outils: "Canva code, Gemini Code Assist, Codestral"
+        },
+        {
+            id: 52,
+            niveau: "Niveau 3",
+            media: "📝 Texte",
+            defi: "Créer un guide « questions fréquentes » pour les appels téléphoniques des familles.",
+            thematique: "Communiquer/Coopérer",
+            outils: "Mistral ou autre LLM au choix",
+            mention: "Spécial Administratifs"
+        },
+        {
+            id: 53,
+            niveau: "Niveau 3",
+            media: "💻 Interactif",
+            defi: "Entraîner une IA à reconnaître des sons.",
+            thematique: "Automatisation et programmation",
+            outils: "Vittascience"
+        },
+        {
+            id: 54,
+            niveau: "Niveau 3",
+            media: "💻 Interactif",
+            defi: "Générer une application en code faite par IA pour entraîner les élèves à un élément de cours (notion, liste de vocabulaire, etc.).",
+            thematique: "Automatisation et programmation",
+            outils: "Canva code, Gemini Code Assist, Codestral"
+        },
+        {
+            id: 55,
+            niveau: "Niveau 3",
+            media: "🖼️ Image",
+            defi: "Générer un jeu de Loup-Garou, Cluedo ou Qui est-ce ? avec des personnages à l'effigie des professeurs de l'établissement. Générer le plateau et un logo.",
+            thematique: "Concevoir des activités",
+            outils: "DALL-E, Midjourney, Canva"
+        },
+        {
+            id: 56,
+            niveau: "Niveau 3",
+            media: "📝 Texte",
+            defi: "Générer un tableau d'organisation pour une journée portes ouvertes (stands, horaires, intervenants).",
+            thematique: "Organiser son travail",
+            outils: "Mistral, Canva",
+            mention: "Spécial Administratifs"
+        },
+        {
+            id: 57,
+            niveau: "Niveau 3",
+            media: "📝 Texte",
+            defi: "Générer une organisation d'ateliers en intégrant des modalités de travail collaboratif.",
+            thematique: "Préparer sa séquence",
+            outils: "MagicSchool, EduAide, Mistral"
+        },
+        {
+            id: 58,
+            niveau: "Niveau 3",
+            media: "🖼️ Image",
+            defi: "Générer un plan de classe flexible à partir de contraintes spatiales et pédagogiques données.",
+            thematique: "Préparer sa séquence",
+            outils: "DALL-E, Canva, Mistral ou autre LLM au choix"
+        },
+        {
+            id: 59,
+            niveau: "Niveau 3",
+            media: "📝 Texte",
+            defi: "Créer un scénario de jeu de rôle (vendeur/client, infirmier/patient, mécanicien/client).",
+            thematique: "Préparer sa séquence",
+            outils: "Mistral, MagicSchool, EduAide",
+            mention: "Spécial LP"
+        },
+        {
+            id: 60,
+            niveau: "Niveau 3",
+            media: "💻 Interactif",
+            defi: "Développer un chatbot de révision : créer un chatbot qui pose des questions avant un contrôle.",
+            thematique: "Concevoir des activités",
+            outils: "1cours1bot, Mizou, Chat MD"
+        },
+        {
+            id: 61,
+            niveau: "Niveau 3",
+            media: "📝 Texte",
+            defi: "Générer un tableau comparatif des avantages et inconvénients de plusieurs solutions techniques.",
+            thematique: "Concevoir des supports",
+            outils: "Mistral ou autre LLM au choix, Canva, MagicSchool",
+            mention: "Spécial LP"
+        },
+        {
+            id: 62,
+            niveau: "Niveau 4",
+            media: "📝 Texte",
+            defi: "Méta-analyse de recherche : demander à l'IA de synthétiser dix articles de recherche sur un sujet.",
+            thematique: "Préparer sa séquence",
+            outils: "Perplexity, Mistral ou autre LLM au choix"
+        },
+        {
+            id: 63,
+            niveau: "Niveau 4",
+            media: "📝 Texte",
+            defi: "Cartographie des Compétences : L'IA analyse les travaux et génère une carte visuelle.",
+            thematique: "Évaluer",
+            outils: "Mistral ou autre LLM au choix, Canva, MindMeister"
+        },
+        {
+            id: 64,
+            niveau: "Niveau 4",
+            media: "💻 Interactif",
+            defi: "Création d'un Tuteur IA Personnalisé : Utiliser une API pour développer un tuteur.",
+            thematique: "Diversité des élèves",
+            outils: "OpenAI API, Anthropic API, Custom GPT"
+        },
+        {
+            id: 65,
+            niveau: "Niveau 4",
+            media: "📝 Texte",
+            defi: "Analyse Prédictive : Identifier les profils d'élèves à risque à partir de données.",
+            thematique: "Diversité des élèves",
+            outils: "Mistral ou autre LLM au choix, Python, Excel"
+        },
+        {
+            id: 66,
+            niveau: "Niveau 4",
+            media: "📝 Texte",
+            defi: "Fine-Tuning d'un Modèle : Entraîner une IA avec ses propres cours.",
+            thematique: "Automatisation et programmation",
+            outils: "OpenAI Fine-tuning, Hugging Face"
+        },
+        {
+            id: 67,
+            niveau: "Niveau 4",
+            media: "📝 Texte",
+            defi: "Prompt Engineering Avancé : Développer des 'meta-prompts'.",
+            thematique: "Automatisation et programmation",
+            outils: "Mistral ou autre LLM au choix, Claude, Prompt Engineering"
+        },
+        {
+            id: 68,
+            niveau: "Niveau 4",
+            media: "📝 Texte",
+            defi: "Rédiger une trame de rapport financier simplifié (dépenses/recettes).",
+            thematique: "Communiquer/Coopérer",
+            outils: "Mistral ou autre LLM au choix, Excel, Canva",
+            mention: "Spécial Administratifs"
+        },
+        {
+            id: 69,
+            niveau: "Niveau 4",
+            media: "🤖 IA",
+            defi: "Entraîner une IA à reconnaître des postures du corps humain.",
+            thematique: "Automatisation et programmation",
+            outils: "Teachable Machine, TensorFlow"
+        },
+        {
+            id: 70,
+            niveau: "Niveau 4",
+            media: "📝 Texte",
+            defi: "Générer un plan d'organisation d'archivage numérique avec catégories et mots-clés.",
+            thematique: "Organiser son travail",
+            outils: "Mistral ou autre LLM au choix, Notion, Obsidian",
+            mention: "Spécial Administratifs"
+        },
+        {
+            id: 71,
+            niveau: "Niveau 4",
+            media: "💻 Développement",
+            defi: "Générer une application en code faite par IA et la relier à une autre application en ligne (Génially, Lockee, etc.) pour générer des activités style escape game.",
+            thematique: "Automatisation et programmation",
+            outils: "Canva Code, Génially, Lockee"
+        },
+        {
+            id: 72,
+            niveau: "Niveau 4",
+            media: "📝 Texte",
+            defi: "Créer un plan de progression sur six semaines pour préparer les élèves à leur PFMP.",
+            thematique: "Diversité des élèves",
+            outils: "Mistral, MagicSchool, EduAide",
+            mention: "Spécial LP"
+        },
+        {
+            id: 73,
+            niveau: "Niveau 4",
+            media: "📝 Texte",
+            defi: "Proposer une grille d'évaluation critériée pour un projet pratique (ex. : pièce en atelier).",
+            thematique: "Évaluer",
+            outils: "MagicSchool, Mistral ou autre LLM au choix, EduAide",
+            mention: "Spécial LP"
+        },
+        {
+            id: 74,
+            niveau: "Niveau 4",
+            media: "💻 Développement",
+            defi: "Générer une application en code faite par IA et la relier à un formulaire de collecte de données (pour suivi ou évaluation).",
+            thematique: "Automatisation et programmation",
+            outils: "Canva Code, Google Forms, Typeform"
+        }
+    ];
+
+    let selectedChallenges = [];
+    let favorites = [];
+    let notes = {};
+    let evaluations = {};
+    let currentLevel = '';
+    let currentTheme = '';
+    let availableThemes = [];
+
+    // Fonction pour mettre à jour la navigation par onglets
+    function updateTabNavigation(currentPage) {
+        // Réinitialiser tous les onglets
+        document.querySelectorAll('.tab-item').forEach(tab => {
+            tab.classList.remove('active', 'completed', 'available');
+        });
+
+        const tabLevels = document.getElementById('tab-levels');
+        const tabThemes = document.getElementById('tab-themes');
+        const tabSelection = document.getElementById('tab-selection');
+        const tabNotes = document.getElementById('tab-notes');
+
+        // Définir l'état de chaque onglet selon la page actuelle
+        switch(currentPage) {
+            case 'levels':
+                tabLevels.classList.add('active');
+                break;
+                
+            case 'themes':
+                tabLevels.classList.add('completed', 'available');
+                tabThemes.classList.add('active');
+                break;
+                
+            case 'selection':
+                tabLevels.classList.add('completed', 'available');
+                tabThemes.classList.add('completed', 'available');
+                tabSelection.classList.add('active');
+                break;
+                
+            case 'notes':
+                tabLevels.classList.add('completed', 'available');
+                tabThemes.classList.add('completed', 'available');
+                tabSelection.classList.add('completed', 'available');
+                tabNotes.classList.add('active');
+                break;
+        }
+    }
+
+    function getNiveauColor(niveau) {
+        if (niveau === "Niveau 1") return "bg-green-100 text-green-800";
+        if (niveau === "Niveau 2") return "bg-orange-100 text-orange-800";
+        if (niveau === "Niveau 3") return "bg-red-100 text-red-800";
+        return "bg-purple-100 text-purple-800";
+    }
+
+    function getThematiqueColor(thematique) {
+        const colors = {
+            "Communiquer/Coopérer": "bg-cyan-100 text-cyan-800",
+            "Concevoir des activités": "bg-green-100 text-green-800",
+            "Concevoir des supports": "bg-orange-100 text-orange-800",
+            "Diversité des élèves": "bg-pink-100 text-pink-800",
+            "Évaluer": "bg-blue-100 text-blue-800",
+            "Organiser son travail": "bg-purple-100 text-purple-800",
+            "Automatisation et programmation": "bg-indigo-100 text-indigo-800",
+            "Préparer sa séquence": "bg-yellow-100 text-yellow-800"
+        };
+        const firstTheme = thematique.split(',')[0].trim();
+        return colors[firstTheme] || "bg-gray-100 text-gray-800";
+    }
+
+    function getLevelIcon(niveau) {
+        if (niveau === "Niveau 1") return '<img src="https://i.imgur.com/ZYEVPKI.png" alt="Ceinture verte" class="w-6 h-6 rounded inline-block object-cover" onerror="this.src=\'\'; this.alt=\'Niveau 1\'; this.style.display=\'none\'; this.parentNode.innerHTML=\'<div class=\\\'w-6 h-6 bg-green-500 border-2 border-green-600 rounded inline-block\\\'></div>\';">';
+        if (niveau === "Niveau 2") return '<img src="https://www.cnjudo.net/wp-content/uploads/2023/06/Judo_yellow_belt.svg_.png" alt="Ceinture jaune" class="w-6 h-6 rounded inline-block object-cover" onerror="this.src=\'\'; this.alt=\'Niveau 2\'; this.style.display=\'none\'; this.parentNode.innerHTML=\'<div class=\\\'w-6 h-6 bg-yellow-400 border-2 border-yellow-500 rounded inline-block\\\'></div>\';">';
+        if (niveau === "Niveau 3") return '<img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Judo_blue_belt.svg" alt="Ceinture bleue" class="w-6 h-6 rounded inline-block object-cover" onerror="this.src=\'\'; this.alt=\'Niveau 3\'; this.style.display=\'none\'; this.parentNode.innerHTML=\'<div class=\\\'w-6 h-6 bg-blue-500 border-2 border-blue-600 rounded inline-block\\\'></div>\';">';
+        return '<img src="https://i.imgur.com/XvA4oAn.png" alt="Ceinture rouge" class="w-6 h-6 rounded inline-block object-cover" onerror="this.src=\'\'; this.alt=\'Niveau 4\'; this.style.display=\'none\'; this.parentNode.innerHTML=\'<div class=\\\'w-6 h-6 bg-red-600 border-2 border-red-700 rounded inline-block\\\'></div>\';">';
+    }
+
+    function getThemesForLevel(level) {
+        // Thématiques conservées pour tous les niveaux
+        const allThemes = [
+            "Communiquer/Coopérer",
+            "Concevoir des activités",
+            "Concevoir des supports",
+            "Diversité des élèves",
+            "Évaluer",
+            "Organiser son travail",
+            "Automatisation et programmation",
+            "Préparer sa séquence"
+        ];
+        
+        return allThemes;
+    }
+
+    function getChallengeCountForTheme(level, theme) {
+        const filteredChallenges = challenges.filter(challenge => 
+            challenge.niveau === level && challenge.thematique === theme
+        );
+        return filteredChallenges.length;
+    }
+
+    function getThemeIcon(theme) {
+        const icons = {
+            "Communiquer/Coopérer": "🤝",
+            "Concevoir des activités": "🎯",
+            "Concevoir des supports": "📄",
+            "Diversité des élèves": "👥",
+            "Évaluer": "📊",
+            "Organiser son travail": "📅",
+            "Automatisation et programmation": "🤖",
+            "Préparer sa séquence": "📋"
+        };
+        return icons[theme] || "📚";
+    }
+
+    function generateThemes(level) {
+        const grid = document.getElementById('themesGrid');
+        grid.innerHTML = '';
+        
+        const themes = getThemesForLevel(level);
+        availableThemes = themes;
+        
+        // Afficher le niveau actuel
+        document.getElementById('levelIcon').innerHTML = getLevelIcon(level);
+        document.getElementById('levelText').textContent = level;
+        
+        themes.forEach(theme => {
+            const challengeCount = getChallengeCountForTheme(level, theme);
+            const displayCount = challengeCount > 0 ? `${challengeCount} défi${challengeCount > 1 ? 's' : ''}` : "Aucun défi";
+            
+            const card = document.createElement('div');
+            card.className = `bg-white rounded-xl shadow-lg p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 border-2 border-transparent`;
+            card.dataset.theme = theme;
+
+            card.innerHTML = `
+                <div class="text-center">
+                    <div class="text-4xl mb-6">${getThemeIcon(theme)}</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">${theme}</h3>
+                    <div class="bg-blue-50 px-4 py-2 rounded-lg">
+                        <span class="text-blue-800 font-semibold">${displayCount}</span>
+                    </div>
+                </div>
+            `;
+
+            if (challengeCount > 0) {
+                card.addEventListener('click', () => {
+                    currentTheme = theme;
+                    switchToSelectionPage();
+                });
+            } else {
+                card.style.opacity = '0.5';
+                card.style.cursor = 'not-allowed';
+            }
+
+            grid.appendChild(card);
+        });
+    }
+
+    function generateCards() {
+        const grid = document.getElementById('cardsGrid');
+        grid.innerHTML = '';
+
+        // Filtrer par niveau et thématique
+        const filteredChallenges = challenges.filter(challenge => 
+            challenge.niveau === currentLevel && challenge.thematique === currentTheme
+        );
+
+        // Afficher les informations actuelles
+        document.getElementById('selectionLevelIcon').innerHTML = getLevelIcon(currentLevel);
+        document.getElementById('selectionLevelText').textContent = currentLevel;
+        document.getElementById('selectionThemeText').textContent = currentTheme;
+
+        filteredChallenges.forEach(challenge => {
+            const card = document.createElement('div');
+            card.className = `bg-white rounded-xl shadow-lg p-6 cursor-pointer transition-all duration-300 hover:shadow-xl border-2 border-transparent card-hover`;
+            card.dataset.id = challenge.id;
+            card.dataset.niveau = challenge.niveau;
+
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-4">
+                    <span class="px-3 py-1 rounded-full text-sm font-medium ${getNiveauColor(challenge.niveau)}">
+                        ${challenge.niveau}
+                    </span>
+                    <button class="favorite-btn text-2xl hover:scale-110 transition-transform" data-id="${challenge.id}">
+                        ${favorites.includes(challenge.id) ? '❤️' : '🤍'}
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <div class="text-4xl mb-3">${challenge.media}</div>
+                    <h3 class="font-bold text-lg text-gray-800 mb-3 leading-tight">${challenge.defi}</h3>
+                </div>
+                <div class="mb-4">
+                    <span class="px-3 py-1 rounded-full text-sm font-medium ${getThematiqueColor(challenge.thematique)}">
+                        ${challenge.thematique}
+                    </span>
+                </div>
+                ${challenge.outils ? `
+                    <div class="border-t pt-4">
+                        <p class="text-sm text-gray-600 font-medium mb-2">🛠️ Outils suggérés :</p>
+                        <p class="text-sm text-gray-700">${challenge.outils}</p>
+                        ${challenge.mention ? `
+                            <div class="mt-3">
+                                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
+                                    ${challenge.mention}
+                                </span>
+                            </div>
+                        ` : ''}
+                        <div class="mt-4">
+                            <button class="help-btn bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2" data-id="${challenge.id}">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                                    </svg>
+                                J'ai besoin d'aide
+                            </button>
+                        </div>
+                    </div>
+                ` : `
+                    <div class="border-t pt-4">
+                        <button class="help-btn bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2" data-id="${challenge.id}">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                                </svg>
+                            J'ai besoin d'aide
+                        </button>
+                    </div>
+                `}
+            `;
+
+            card.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('favorite-btn')) {
+                    toggleCardSelection(challenge.id, card);
+                }
+            });
+
+            const favoriteBtn = card.querySelector('.favorite-btn');
+            favoriteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFavorite(challenge.id);
+            });
+
+            const helpBtn = card.querySelector('.help-btn');
+            helpBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showHelpModal(challenge.id);
+            });
+
+            grid.appendChild(card);
+        });
+    }
+
+    function switchToLevelPage() {
+        const levelPage = document.getElementById('levelPage');
+        const themePage = document.getElementById('themePage');
+        const selectionPage = document.getElementById('selectionPage');
+        const notesPage = document.getElementById('notesPage');
+        
+        // Masquer toutes les autres pages
+        [themePage, selectionPage, notesPage].forEach(page => {
+            page.classList.remove('page-active');
+            page.classList.add('hidden');
+        });
+        
+        // Afficher la page des niveaux
+        setTimeout(() => {
+            levelPage.classList.remove('hidden');
+            setTimeout(() => {
+                levelPage.classList.add('page-active');
+                updateTabNavigation('levels');
+            }, 50);
+        }, 300);
+    }
+
+    function switchToThemePage(level) {
+        const levelPage = document.getElementById('levelPage');
+        const themePage = document.getElementById('themePage');
+        const selectionPage = document.getElementById('selectionPage');
+        const notesPage = document.getElementById('notesPage');
+        
+        currentLevel = level;
+        
+        // Masquer toutes les autres pages
+        [levelPage, selectionPage, notesPage].forEach(page => {
+            page.classList.remove('page-active');
+            page.classList.add('hidden');
+        });
+        
+        setTimeout(() => {
+            generateThemes(level);
+            themePage.classList.remove('hidden');
+            setTimeout(() => {
+                themePage.classList.add('page-active');
+                updateTabNavigation('themes');
+            }, 50);
+        }, 300);
+    }
+
+    function toggleCardSelection(id, cardElement) {
+        const index = selectedChallenges.indexOf(id);
+        
+        if (index > -1) {
+            selectedChallenges.splice(index, 1);
+            cardElement.classList.remove('card-selected');
+        } else {
+            selectedChallenges.push(id);
+            cardElement.classList.add('card-selected');
+        }
+        
+        updateSelectedCount();
+    }
+
+    function toggleFavorite(id) {
+        const index = favorites.indexOf(id);
+        const btn = document.querySelector(`[data-id="${id}"].favorite-btn`);
+        
+        if (index > -1) {
+            favorites.splice(index, 1);
+            btn.textContent = '🤍';
+        } else {
+            favorites.push(id);
+            btn.textContent = '❤️';
+        }
+        
+        updateSelectedCount();
+    }
+
+    function updateSelectedCount() {
+        const count = document.getElementById('selectedCount');
+        const floatingCount = document.getElementById('floatingCount');
+        const validateBtn = document.getElementById('validatePlan');
+        const floatingBtn = document.getElementById('floatingValidateBtn');
+        
+        const totalSelected = selectedChallenges.length;
+        
+        count.textContent = totalSelected;
+        floatingCount.textContent = totalSelected;
+        validateBtn.disabled = totalSelected === 0;
+        
+        if (totalSelected > 0) {
+            floatingBtn.style.display = 'block';
+        } else {
+            floatingBtn.style.display = 'none';
+        }
+    }
+
+    function showHelpModal(challengeId) {
+        const modal = document.getElementById('helpModal');
+        const content = document.getElementById('helpContent');
+        
+        // Définir les pas à pas pour les défis spécifiques
+        const helpContent = {
+            1: {
+                title: "Fiche de suivi élève : créer un modèle de fiche pour noter les progrès",
+                steps: [
+                    "Ouvrez une IA (Mistral ou autre LLM au choix).",
+                    "Demandez : \"Agis en tant qu'enseignant. Crée un modèle de fiche de suivi des progrès pour un élève de [votre niveau/matière]. Inclus des sections pour : [Compétences clés], [Points forts], [Axes d'amélioration] et [Prochains objectifs].\""
+                ]
+            },
+            2: {
+                title: "Questionnaire d'auto-évaluation : 5 questions pour que l'élève évalue sa compréhension",
+                steps: [
+                    "Indiquez le sujet précis à l'IA (ex: \"le cycle de l'eau\").",
+                    "Demandez : \"Crée un questionnaire d'auto-évaluation de 5 questions pour qu'un élève puisse vérifier s'il a compris [sujet]. Utilise des questions de type 'Suis-je capable de...?'.\""
+                ]
+            },
+            3: {
+                title: "Mail aux parents : rédiger un mail d'information pour les familles",
+                steps: [
+                    "Précisez le contexte à l'IA (ex: \"sortie scolaire\", \"réunion parents-profs\").",
+                    "Demandez : \"Rédige un e-mail court et clair pour informer les parents d'élèves de [contexte]. Mentionne [date], [lieu], [heure] et [matériel à prévoir]. Adopte un ton professionnel et cordial.\""
+                ]
+            },
+            4: {
+                title: "Modèle de mail professionnel : créer un modèle de mail pour contacter les entreprises partenaires",
+                steps: [
+                    "Expliquez l'objectif (ex: \"demande de stage PFMP\", \"recherche de partenariat\").",
+                    "Demandez : \"Crée un modèle d'e-mail professionnel pour un enseignant contactant une entreprise pour [objectif]. Inclus des champs à remplir comme [Nom de l'entreprise], [Nom de l'élève], [Dates souhaitées].\""
+                ]
+            },
+            5: {
+                title: "Compte-rendu de réunion : créer un modèle de compte-rendu avec les points essentiels",
+                steps: [
+                    "Demandez : \"Crée un modèle (template) de compte-rendu de réunion pédagogique.\"",
+                    "Précisez : \"Inclus les sections suivantes : [Date], [Participants], [Ordre du jour], [Points clés discutés], [Décisions prises] et [Actions à suivre avec responsables et deadlines].\""
+                ]
+            },
+            6: {
+                title: "Création d'images : générer 3 illustrations pour accompagner une leçon",
+                steps: [
+                    "Ouvrez une IA génératrice d'images (DALL-E, Midjourney, Ideogram).",
+                    "Rédigez un prompt descriptif pour chaque image (ex: \"Illustration simple style dessin au trait d'un volcan en éruption pour une fiche de cours SVT.\").",
+                    "Générez et affinez si besoin."
+                ]
+            },
+            7: {
+                title: "Résumé de cours : faire résumer un texte long en 200 mots maximum",
+                steps: [
+                    "Copiez le texte de votre cours.",
+                    "Collez-le dans l'IA en demandant : \"Résume le texte suivant en 200 mots maximum, en te concentrant sur les idées principales. Le public est un élève de [Niveau]. Utilise des phrases simples.\""
+                ]
+            },
+            8: {
+                title: "Adaptation de texte : simplifier un texte pour des élèves en difficulté",
+                steps: [
+                    "Copiez le texte original.",
+                    "Demandez à l'IA : \"Adapte ce texte pour un élève en difficulté de [Niveau] (ex: faible lecteur). Utilise des phrases courtes, un vocabulaire simple, et mets les mots techniques importants en gras avec leur définition.\""
+                ]
+            },
+            9: {
+                title: "Correction automatique : faire corriger 5 copies d'élèves en expliquant les erreurs",
+                steps: [
+                    "Copiez-collez le texte d'UNE copie (anonymisée).",
+                    "Demandez : \"Corrige les fautes d'orthographe et de grammaire dans ce texte.\"",
+                    "Ajoutez : \"Pour chaque erreur majeure, explique la règle qui s'applique comme tu le ferais à un élève.\" (Répéter pour les autres copies)."
+                ]
+            },
+            10: {
+                title: "Vérification d'informations : demander de vérifier 3 affirmations sur un sujet",
+                steps: [
+                    "Listez vos affirmations (ex: \"Napoléon a-t-il mesuré 1m50 ?\").",
+                    "Demandez à l'IA : \"Vérifie la véracité des affirmations suivantes et fournis-moi tes sources : [Affirmation 1], [Affirmation 2], [Affirmation 3].\"",
+                    "Important : Croisez les sources fournies."
+                ]
+            },
+            11: {
+                title: "Brainstorming d'activités : demander 10 idées d'activités sur un thème donné",
+                steps: [
+                    "Donnez le sujet (ex: \"les écosystèmes\") et le niveau de classe.",
+                    "Demandez : \"Donne-moi 10 idées d'activités pédagogiques variées (ex: jeu, écriture, expérience, débat) sur [sujet] pour des élèves de [Niveau].\""
+                ]
+            },
+            12: {
+                title: "Quiz interactif : transformer 10 questions en jeu type « Qui veut gagner des millions ? »",
+                steps: [
+                    "Fournissez vos 10 questions et réponses.",
+                    "Demandez : \"Transforme ce quiz en un jeu de type 'Qui veut gagner des millions ?'. Pour chaque question, propose 4 options (A, B, C, D) dont une seule est correcte. Augmente la difficulté progressivement.\""
+                ]
+            },
+            13: {
+                title: "Planning hebdomadaire : générer un modèle de planning pour organiser sa semaine de travail",
+                steps: [
+                    "Demandez : \"Crée un modèle de planning hebdomadaire pour un enseignant.\"",
+                    "Précisez : \"Organise-le en tableau avec les jours en colonnes et les heures en lignes. Inclus des sections pour [Préparation de cours], [Temps de classe], [Corrections], [Réunions].\""
+                ]
+            },
+            14: {
+                title: "Tableau de bord : créer un tableau de suivi des dossiers en cours",
+                steps: [
+                    "Listez vos types de dossiers (ex: \"Suivi PAI\", \"Projets de classe\", \"PFMP\").",
+                    "Demandez : \"Crée un modèle de tableau de bord de suivi de projets (format Markdown) pour un enseignant. Inclus des colonnes pour [Nom du dossier], [Statut (À faire, En cours, Terminé)], [Prochaine étape], [Date limite].\""
+                ]
+            },
+            15: {
+                title: "Plan de cours : générer la structure d'une séance de 55 minutes",
+                steps: [
+                    "Indiquez le sujet et l'objectif (ex: \"Introduire les fractions\").",
+                    "Demandez : \"Génère le plan détaillé (déroulé) d'une séance de 55 minutes sur [sujet]. Inclus 3 phases : [Accroche/Rappel (5 min)], [Activité principale (30 min)], [Synthèse/Institutionnalisation (20 min)] et le matériel.\""
+                ]
+            },
+            16: {
+                title: "Exercices d'application : générer 5 exercices progressifs sur une notion",
+                steps: [
+                    "Indiquez la notion (ex: \"l'accord du participe passé avec avoir\").",
+                    "Demandez : \"Crée 5 exercices d'application sur [notion]. Fais-les de difficulté progressive : 1 (facile, identification), 3 (moyen, application simple), 5 (difficile, production).\"",
+                    "Demandez le corrigé à la fin."
+                ]
+            },
+            17: {
+                title: "Objectifs pédagogiques : formuler 3 objectifs SMART pour une séquence",
+                steps: [
+                    "Donnez votre sujet de séquence (ex: \"Le système solaire\").",
+                    "Demandez : \"Formule 3 objectifs pédagogiques SMART (Spécifique, Mesurable, Atteignable, Réaliste, Temporellement défini) pour une séquence sur [sujet] destinée à des [Niveau].\""
+                ]
+            },
+            18: {
+                title: "Liste de matériel : générer la liste du matériel nécessaire pour un TP ou un atelier",
+                steps: [
+                    "Décrivez l'activité (ex: \"TP sur la dissection d'une fleur\").",
+                    "Demandez : \"Génère la liste complète du matériel nécessaire pour [activité] pour un groupe de [nombre] élèves. Sépare le matériel par élève et le matériel collectif.\""
+                ]
+            },
+            19: {
+                title: "Consignes d'atelier : rédiger des consignes claires pour un travail en groupe",
+                steps: [
+                    "Décrivez la tâche (ex: \"Créer une affiche sur le recyclage\").",
+                    "Demandez : \"Rédige les consignes pour un travail de groupe sur [tâche]. Sépare bien : [Objectif final], [Tâches à réaliser], [Rôles possibles], [Temps imparti] et [Livrable attendu].\""
+                ]
+            },
+            20: {
+                title: "Aide aux devoirs : expliquer une notion difficile avec des mots simples",
+                steps: [
+                    "Indiquez la notion (ex: \"le théorème de Pythagore\").",
+                    "Demandez : \"Explique [notion] comme tu le ferais à un élève de [Niveau] qui n'a pas compris. Utilise des mots très simples, des exemples concrets et une analogie.\""
+                ]
+            },
+            21: {
+                title: "Tableau comparatif : organiser des informations sous forme de tableau à double entrée",
+                steps: [
+                    "Indiquez les éléments à comparer (ex: \"cellule animale et cellule végétale\").",
+                    "Demandez : \"Crée un tableau comparatif de [élément 1] et [élément 2]. Utilise les critères suivants en lignes : [Critère 1 (ex: Présence de noyau)], [Critère 2 (ex: Paroi)], etc.\""
+                ]
+            },
+            22: {
+                title: "QCM automatique : générer 10 questions à choix multiples sur un chapitre de cours",
+                steps: [
+                    "Indiquez le chapitre ou copiez-collez un résumé du cours.",
+                    "Demandez : \"À partir de ce cours sur [sujet], génère un QCM de 10 questions. Pour chaque question, propose 4 options de réponse (A, B, C, D) et indique la bonne réponse.\""
+                ]
+            },
+            23: {
+                title: "Grille d'évaluation : créer une grille avec 4 critères et 4 niveaux",
+                steps: [
+                    "Indiquez ce que vous évaluez (ex: \"un exposé oral\").",
+                    "Demandez : \"Crée une grille d'évaluation critériée pour [tâche]. Utilise 4 critères : [Critère 1], [Critère 2], [Critère 3], [Critère 4].\"",
+                    "Ajoutez : \"Pour chaque critère, décris 4 niveaux de maîtrise : (Insuffisant, Fragile, Satisfaisant, Très satisfaisant).\""
+                ]
+            },
+            24: {
+                title: "Questions ouvertes : créer 3 questions de réflexion sur un texte ou un document",
+                steps: [
+                    "Fournissez le document ou le sujet (ex: \"la Déclaration des Droits de l'Homme\").",
+                    "Demandez : \"Crée 3 questions de réflexion ouvertes sur [sujet] qui encouragent l'esprit critique et le débat. Évite les questions dont la réponse est évidente.\""
+                ]
+            },
+            25: {
+                title: "Grille de compétences : créer une grille d'évaluation par compétences pour un projet",
+                steps: [
+                    "Indiquez le projet (ex: \"projet de création d'entreprise\").",
+                    "Listez les compétences (ex: \"C1: Analyser un besoin\", \"C2: Travailler en équipe\").",
+                    "Demandez : \"Crée une grille d'évaluation par compétences pour [projet]. Pour chaque compétence [C1, C2...], décris les 4 niveaux d'acquisition (Non acquis, En cours, Acquis, Dépassé).\""
+                ]
+            },
+            53: {
+                title: "Entraîner une IA à reconnaître des sons",
+                steps: [
+                    "(Prérequis : compétence technique).",
+                    "Rassemblez un grand volume de vos cours (format Question/Réponse idéalement).",
+                    "Utilisez l'interface de \"fine-tuning\" d'une API (ex: OpenAI).",
+                    "Uploadez votre jeu de données formaté (ex: JSONL) et lancez le processus.",
+                    "Appelez le nouveau modèle personnalisé via l'API."
+                ]
+            },
+            52: {
+                title: "Générer une application en code faite par IA pour entraîner les élèves",
+                steps: [
+                    "(IA Texte) Demandez : \"Génère le code (HTML, CSS, JavaScript) pour une application web simple de flashcards.\"",
+                    "Précisez : \"L'utilisateur doit voir un mot en français [liste de 10 mots], cliquer sur la carte pour voir la traduction [liste de 10 traductions], et passer à la suivante.\"",
+                    "Copiez le code dans un outil (ex: Replit, Glitch) pour l'exécuter."
+                ]
+            },
+            64: {
+                title: "Fine-Tuning d'un Modèle : Entraîner une IA avec ses propres cours",
+                steps: [
+                    "Choisissez la destination (ex: \"La Rome Antique\").",
+                    "Demandez : \"Planifie un itinéraire de 'voyage scolaire virtuel' d'une journée à [destination].\"",
+                    "Pour chaque étape (ex: \"Colisée\"), demandez à l'IA texte une description et à l'IA image une \"image photoréaliste de [lieu] à cette époque.\""
+                ]
+            },
+            68: {
+                title: "Prompt Engineering Avancé : Développer des 'meta-prompts'",
+                steps: [
+                    "(IA Texte) Demandez le script et la voix-off (voir défi Jaune).",
+                    "(IA Texte) Demandez : \"Transforme ce script en un storyboard détaillé (tableau) en décrivant chaque plan (visuel, texte à l'écran).\"",
+                    "(IA Voix) Utilisez un outil (ex: ElevenLabs) pour générer la voix-off.",
+                    "(IA Vidéo) Utilisez un outil (ex: Runway) pour générer des clips vidéo à partir des descriptions du storyboard."
+                ]
+            },
+            65: {
+                title: "Entraîner une IA à reconnaître des postures du corps humain",
+                steps: [
+                    "Listez une erreur fréquente (ex: \"Oubli du 's' à la 2e personne du singulier\").",
+                    "Demandez : \"Pour [erreur], rédige 3 commentaires de feedback : un (constat simple), un (rappel de la règle), et un (question guidée).\"",
+                    "Répétez pour 5 erreurs fréquentes."
+                ]
+            },
+            70: {
+                title: "Générer une application en code (IA) et la relier à une autre (Génially, Lockee...) pour escape game",
+                steps: [
+                    "Demandez : \"Crée 5 profils d'élèves différents (ex: le travailleur, le créatif désorganisé, le timide, le leader, l'élève en difficulté).\"",
+                    "Demandez : \"Pour chaque profil, rédige 3 appréciations de bulletin équilibrées (points forts, axes de progrès, encouragement) pour [votre matière].\""
+                ]
+            },
+            69: {
+                title: "Générer une application en code (IA) et la relier à un formulaire de collecte de données",
+                steps: [
+                    "(IA Texte) Demandez : \"Génère le code (HTML, CSS, JavaScript) pour une application web simple de flashcards.\"",
+                    "Précisez : \"L'utilisateur doit voir un mot en français [liste de 10 mots], cliquer sur la carte pour voir la traduction [liste de 10 traductions], et passer à la suivante.\"",
+                    "Copiez le code dans un outil (ex: Replit, Glitch) pour l'exécuter."
+                ]
+            },
+            42: {
+                title: "Projet interdisciplinaire : proposer un projet liant au moins trois disciplines différentes",
+                steps: [
+                    "Choisissez votre thème central (ex: \"développement durable\", \"voyage dans l'espace\").",
+                    "Demandez : \"Propose un projet interdisciplinaire sur [thème] qui lie au moins 3 disciplines : [Discipline 1], [Discipline 2], [Discipline 3].\"",
+                    "Précisez : \"Pour chaque discipline, décris les compétences travaillées et les productions attendues. Propose un livrable final commun (ex: exposition, présentation, création).\"",
+                    "Demandez ensuite : \"Crée un planning de réalisation sur [durée] avec les étapes clés et la coordination entre les disciplines.\""
+                ]
+            },
+            43: {
+                title: "Anticiper les Questions des Élèves : 'Quelles questions les élèves risquent de poser ?'",
+                steps: [
+                    "Indiquez votre sujet de cours (ex: \"la photosynthèse\", \"la Révolution française\").",
+                    "Demandez : \"Quelles questions les élèves de [niveau] risquent-ils de poser pendant un cours sur [sujet] ?\"",
+                    "Précisez : \"Classe ces questions par type : (1) Questions de compréhension, (2) Questions de curiosité, (3) Questions difficiles/pièges.\"",
+                    "Demandez : \"Pour chaque question, propose une réponse adaptée au niveau des élèves.\""
+                ]
+            },
+            44: {
+                title: "Escape Game pédagogique : générer un scénario, des énigmes et des indices sur une thématique de cours",
+                steps: [
+                    "Choisissez votre thème pédagogique (ex: \"les fractions\", \"la Seconde Guerre mondiale\").",
+                    "Demandez : \"Crée un scénario d'escape game pédagogique sur [thème] pour des élèves de [niveau].\"",
+                    "Précisez : \"Inclus : (1) Une histoire/mission captivante, (2) 4-5 énigmes progressives utilisant les notions du cours, (3) Des indices pour débloquer les élèves.\"",
+                    "Demandez : \"Fournis aussi le matériel nécessaire et l'organisation pratique (groupes, temps, espace).\""
+                ]
+            },
+            45: {
+                title: "Créer un jeu de plateau : générer un concept, les règles et le design des cartes d'un jeu éducatif",
+                steps: [
+                    "Définissez votre objectif pédagogique (ex: \"réviser les tables de multiplication\", \"apprendre le vocabulaire anglais\").",
+                    "Demandez : \"Crée un jeu de plateau éducatif sur [sujet] pour [niveau].\"",
+                    "Précisez : \"Inclus : (1) Le concept et les règles du jeu, (2) Le design du plateau (cases, parcours), (3) Les types de cartes et leurs contenus, (4) Les conditions de victoire.\"",
+                    "Demandez : \"Propose aussi une variante plus simple et une plus complexe.\""
+                ]
+            },
+            46: {
+                title: "Voyage Scolaire Virtuel : Planifier un voyage (itinéraire, descriptions) et générer des images",
+                steps: [
+                    "Choisissez la destination (ex: \"La Rome Antique\", \"L'Égypte des pharaons\").",
+                    "Demandez : \"Planifie un 'voyage scolaire virtuel' d'une journée à [destination] pour des élèves de [niveau].\"",
+                    "Précisez : \"Crée un itinéraire avec 4-5 étapes clés. Pour chaque étape, fournis une description immersive et des activités pédagogiques.\"",
+                    "(IA Image) Pour chaque étape, demandez : \"Génère une image photoréaliste de [lieu] à [époque] pour illustrer notre voyage virtuel.\""
+                ]
+            },
+            47: {
+                title: "Vidéo Éducative Complète : Générer script, storyboard et voix-off pour une capsule",
+                steps: [
+                    "Définissez votre sujet et durée (ex: \"les volcans, 3 minutes\").",
+                    "Demandez : \"Écris le script d'une vidéo éducative de [durée] sur [sujet] pour des élèves de [niveau].\"",
+                    "Demandez : \"Transforme ce script en storyboard détaillé (tableau) : [Plan], [Visuel à l'écran], [Texte de la voix-off], [Durée].\"",
+                    "(IA Voix) Utilisez un outil comme ElevenLabs pour générer la voix-off à partir du script."
+                ]
+            },
+            48: {
+                title: "Générer une Musique de Film : Composer une musique d'ambiance à partir d'une scène",
+                steps: [
+                    "Décrivez votre scène (ex: \"exploration d'une forêt mystérieuse\", \"bataille épique\").",
+                    "Ouvrez un outil de génération musicale (Suno, Udio, ou AIVA).",
+                    "Rédigez un prompt musical : \"Musique d'ambiance [style] pour une scène de [description]. Durée : [temps]. Instruments : [précisez si souhaité].\"",
+                    "Générez plusieurs versions et sélectionnez celle qui correspond le mieux à l'atmosphère souhaitée."
+                ]
+            },
+            49: {
+                title: "Automatiser les Feedbacks : Créer une banque de commentaires pour erreurs récurrentes",
+                steps: [
+                    "Listez 5 erreurs fréquentes de vos élèves (ex: \"Oubli du 's' à la 2e personne du singulier\").",
+                    "Pour chaque erreur, demandez : \"Rédige 3 commentaires de feedback différents : (1) Constat simple, (2) Rappel de la règle, (3) Question guidée pour faire réfléchir l'élève.\"",
+                    "Organisez ces commentaires dans un tableau : [Type d'erreur] | [Feedback 1] | [Feedback 2] | [Feedback 3].",
+                    "Testez ces feedbacks sur de vraies copies pour ajuster le ton et l'efficacité."
+                ]
+            },
+            50: {
+                title: "Créer un chatbot permettant les révisions, l'accès au sens d'un texte (ou d'un cours), ou l'engagement dans une production écrite",
+                steps: [
+                    "Copiez-collez plusieurs travaux d'un élève (anonymisés) ou vos feedbacks.",
+                    "Indiquez la liste des compétences cibles.",
+                    "Demandez : \"Analyse ces productions et évalue le niveau de maîtrise de l'élève sur [compétences].\"",
+                    "(IA Visuelle) \"Présente cette analyse sous forme de diagramme 'radar' (toile d'araignée).\""
+                ]
+            },
+            51: {
+                title: "Générer divers profils d'élèves et, pour chaque profil, des appréciations prêtes à l'emploi à copier-coller dans un bulletin",
+                steps: [
+                    "(Prérequis : compétences en code ou NoCode).",
+                    "(IA Texte) Demandez : \"Génère un extrait de code [Python/JS] de base pour appeler l'API [OpenAI/Google] avec un prompt système.\"",
+                    "Le prompt système devra être : \"Tu es 'ProfBot', un tuteur expert en [Matière]. Ta mission est d'aider les élèves de [Niveau] en...\"",
+                    "Intégrez ce code dans une interface web simple (ex: Replit, Glitch)."
+                ]
+            },
+            52: {
+                title: "Créer un guide « questions fréquentes » pour les appels téléphoniques des familles",
+                steps: [
+                    "(IA Analyse) Uploadez un tableur (CSV/Excel) de données anonymisées (ex: notes T1, T2, nb_absences).",
+                    "Demandez : \"Analyse ce jeu de données. Identifie les 3 principaux indicateurs qui semblent corréler avec [colonne 'difficulté' ou 'décrochage'].\""
+                ]
+            },
+            53: {
+                title: "Entraîner une IA à reconnaître des sons",
+                steps: [
+                    "(Prérequis : compétence technique).",
+                    "Rassemblez un grand volume de vos cours (format Question/Réponse idéalement).",
+                    "Utilisez l'interface de \"fine-tuning\" d'une API (ex: OpenAI).",
+                    "Uploadez votre jeu de données formaté (ex: JSONL) et lancez le processus.",
+                    "Appelez le nouveau modèle personnalisé via l'API."
+                ]
+            },
+            54: {
+                title: "Générer une application en code faite par IA pour entraîner les élèves à un élément de cours (notion, liste de vocabulaire, etc.)",
+                steps: [
+                    "Un \"meta-prompt\" est un prompt qui génère d'autres prompts.",
+                    "Demandez à l'IA : \"Tu es un expert en 'prompt engineering' pour l'éducation.\"",
+                    "\"Je veux créer des exercices de maths. Pose-moi 5 questions (sur le niveau, le type d'exercice, la notion) dont tu as besoin pour générer un prompt parfait pour une autre IA.\""
+                ]
+            },
+            55: {
+                title: "Générer un jeu de Loup-Garou, Cluedo ou Qui est-ce ? avec des personnages à l'effigie des professeurs de l'établissement. Générer le plateau et un logo",
+                steps: [
+                    "Indiquez le contexte (ex: \"Bilan financier de la coopérative scolaire\").",
+                    "Demandez : \"Crée une trame de rapport financier simplifié pour [contexte].\"",
+                    "Précisez : \"Inclus des sections claires : [Solde initial], [Total des recettes (détaillé par poste)], [Total des dépenses (détaillé par poste)], [Solde final].\""
+                ]
+            },
+            56: {
+                title: "Générer un tableau d'organisation pour une journée portes ouvertes (stands, horaires, intervenants)",
+                steps: [
+                    "Utilisez un outil (ex: Teachable Machine de Google - mode \"Pose\").",
+                    "Créez les catégories (ex: \"Bras levé\", \"Assis avachi\", \"Debout attentif\").",
+                    "Activez votre webcam et prenez de nombreuses photos de vous dans chaque posture.",
+                    "Lancez l'entraînement du modèle et testez-le en direct."
+                ]
+            },
+            57: {
+                title: "Générer une organisation d'ateliers en intégrant des modalités de travail collaboratif",
+                steps: [
+                    "Listez vos types de documents (ex: \"cours\", \"évaluations\", \"administratif\").",
+                    "Demandez : \"Propose une arborescence de dossiers (structure de dossiers/sous-dossiers) pour organiser l'archivage numérique d'un enseignant en [Matière].\"",
+                    "Ajoutez : \"Propose également une convention de nommage claire pour les fichiers (ex: ANNÉE_CLASSE_SUJET_v1.pdf).\""
+                ]
+            },
+            70: {
+                title: "Générer un plan d'organisation d'archivage numérique avec catégories et mots-clés",
+                steps: [
+                    "Listez vos types de documents (ex: \"cours\", \"évaluations\", \"administratif\").",
+                    "Demandez : \"Propose une arborescence de dossiers (structure de dossiers/sous-dossiers) pour organiser l'archivage numérique d'un enseignant en [Matière].\"",
+                    "Ajoutez : \"Propose également une convention de nommage claire pour les fichiers (ex: ANNÉE_CLASSE_SUJET_v1.pdf).\""
+                ]
+            },
+            71: {
+                title: "Générer une application en code (IA) et la relier à une autre (Génially, Lockee...) pour escape game",
+                steps: [
+                    "(Mistral ou autre LLM au choix) Demandez : \"Génère le code (HTML/JS) pour une page web qui pose une question [question] et n'affiche le mot de passe [mdp] que si l'utilisateur entre la bonne réponse [réponse].\"",
+                    "Hébergez ce code (ex: Glitch, Replit).",
+                    "(Génially) Créez votre escape game. Sur un objet, ajoutez un lien externe vers l'URL de votre application (étape 2).",
+                    "Le mot de passe [mdp] obtenu sert à déverrouiller l'étape suivante dans Génially."
+                ]
+            },
+            72: {
+                title: "Créer un plan de progression sur six semaines pour préparer les élèves à leur PFMP",
+                steps: [
+                    "Indiquez la filière (ex: \"Bac Pro Vente\") et les compétences clés de la PFMP.",
+                    "Demandez : \"Crée un plan de progression sur 6 semaines pour préparer des élèves de [Filière] à leur PFMP.\"",
+                    "Précisez : \"Organise-le semaine par semaine, avec un objectif par semaine (ex: S1: Savoir-être, S2: Prise de contact client, S3: ...).\""
+                ]
+            },
+            73: {
+                title: "Proposer une grille d'évaluation critériée pour un projet pratique (ex. : pièce en atelier)",
+                steps: [
+                    "Indiquez la pièce (ex: \"une pièce de jonction en métal\") et la filière (ex: \"Usinage\").",
+                    "Demandez : \"Crée une grille d'évaluation critériée pour [pièce].\"",
+                    "Précisez les critères techniques : \"Inclus des critères sur [Respect des cotes], [État de surface], [Utilisation correcte des machines], [Respect des règles de sécurité].\""
+                ]
+            },
+            74: {
+                title: "Générer une application en code (IA) et la relier à un formulaire de collecte de données",
+                steps: [
+                    "(Mistral ou autre LLM au choix) Générez une application web simple (ex: un quiz, voir défi Bleu).",
+                    "(Formulaire) Créez un Google Form ou Microsoft Form avec les questions de suivi (ex: \"Nom\", \"Qu'as-tu appris ?\").",
+                    "(Mistral ou autre LLM au choix) Demandez : \"Comment ajouter un bouton sur ma page HTML qui redirige vers l'URL de mon [Google Form] à la fin du quiz ?\"",
+                    "L'élève fait l'activité puis remplit le formulaire."
+                ]
+            },
+            26: {
+                title: "Parcours différenciés : créer 3 niveaux d'exercices (facile, moyen, difficile) sur le même thème",
+                steps: [
+                    "Indiquez le thème (ex: \"les équations du premier degré\").",
+                    "Demandez : \"Crée une fiche d'exercices différenciée sur [thème].\"",
+                    "Structurez : \"Propose un 'Parcours 1 (Facile)' avec exercices guidés, un 'Parcours 2 (Moyen)' d'application, et un 'Parcours 3 (Difficile)' avec un problème complexe.\""
+                ]
+            },
+            30: {
+                title: "Script de Podcast : Écrire le script d'un podcast de 5 min interviewant un scientifique",
+                steps: [
+                    "Indiquez le scientifique (ex: \"Marie Curie\") et le public (ex: \"élèves de 4ème\").",
+                    "Demandez : \"Écris le script d'un épisode de podcast de 5 minutes. Ce doit être une interview fictive entre un animateur (enseignant) et [scientifique] sur sa découverte [sujet]. Vulgarise les concepts clés.\""
+                ]
+            },
+            31: {
+                title: "Liste de Critères d'Évaluation : Définir 5 critères clairs pour évaluer un oral",
+                steps: [
+                    "Demandez : \"Liste 5 critères clairs et observables pour évaluer une présentation orale d'élève.\"",
+                    "Affinez : \"Inclus des critères sur le fond (ex: pertinence des infos) et la forme (ex: posture, élocution, support visuel).\""
+                ]
+            },
+            32: {
+                title: "À partir d'un corpus de documents, générer un ensemble d'activités d'apprentissage",
+                steps: [
+                    "Copiez-collez les documents (textes, descriptions d'images).",
+                    "Demandez : \"Voici un corpus de 3 documents sur [thème]. Crée une série d'activités pour des [Niveau].\"",
+                    "Précisez : \"Inclus des questions d'analyse (doc par doc), de comparaison (croisée) et une tâche de synthèse (production).\""
+                ]
+            },
+            34: {
+                title: "Créer une séquence selon les principes de la CUA",
+                steps: [
+                    "Indiquez le sujet de la séquence.",
+                    "Demandez : \"Propose-moi le plan d'une séquence sur [sujet] en respectant les 3 principes de la Conception Universelle des Apprentissages (CUA).\"",
+                    "Spécifiez : \"Donne des exemples concrets pour (1) les modes de représentation, (2) les modes d'action/expression, et (3) les modes d'engagement.\""
+                ]
+            },
+            36: {
+                title: "Différencier la nature des productions attendues et les consignes associées",
+                steps: [
+                    "Indiquez l'objectif (ex: \"Montrer la compréhension du cycle de l'eau\").",
+                    "Demandez : \"Pour évaluer [objectif], propose 3 types de productions finales différentes (ex: un texte écrit, un diaporama oral, un schéma commenté).\"",
+                    "Ajoutez : \"Pour chaque type de production, rédige la consigne claire et les critères de réussite.\""
+                ]
+            },
+            38: {
+                title: "Transformer un mode d'emploi professionnel en une version simplifiée pour élèves débutants",
+                steps: [
+                    "Copiez-collez le mode d'emploi technique.",
+                    "Demandez : \"Transforme ce mode d'emploi en une fiche-procédure simplifiée pour des élèves débutants.\"",
+                    "Précisez : \"Utilise des étapes numérotées, des verbes d'action, un vocabulaire simple et ajoute une section 'Points de vigilance'.\""
+                ]
+            },
+            40: {
+                title: "Résumer un document administratif long en une page claire et synthétique",
+                steps: [
+                    "Copiez-collez le texte du document (ex: \"BO\", \"projet d'établissement\").",
+                    "Demandez : \"Résume ce document administratif en une page maximum.\"",
+                    "Guidez : \"Extrais les 5 points clés à retenir, les dates limites importantes et les actions requises. Utilise des listes à puces.\""
+                ]
+            },
+            27: {
+                title: "Séquence complète : générer une séquence de 6 séances avec progression et évaluations",
+                steps: [
+                    "Indiquez le sujet (ex: \"La poésie engagée\") et le niveau.",
+                    "Demandez : \"Crée une séquence pédagogique complète de 6 séances sur [sujet].\"",
+                    "Précisez : \"Inclus l'objectif de chaque séance, la progression, une idée d'activité principale, une évaluation formative et une évaluation sommative.\""
+                ]
+            },
+            28: {
+                title: "Script vidéo : écrire le script d'une vidéo de 2 min expliquant une règle ou une notion",
+                steps: [
+                    "Indiquez la notion (ex: \"la nomenclature en chimie\").",
+                    "Demandez : \"Écris le script d'une capsule vidéo éducative de 2 minutes sur [notion].\"",
+                    "Précisez : \"Structure-le en [Accroche], [Explication claire avec 2 exemples], [Résumé]. Rédige la voix-off et décris les visuels à montrer.\""
+                ]
+            },
+            29: {
+                title: "Données pour un graphique : inventer des données pour que les élèves créent un graphique",
+                steps: [
+                    "Indiquez le contexte (ex: \"évolution de la température\", \"résultats d'un sondage\").",
+                    "Demandez : \"Génère un tableau de données fictives mais réalistes sur [contexte] que mes élèves pourront utiliser pour créer un graphique. Inclus [nombre] valeurs.\""
+                ]
+            },
+            33: {
+                title: "Adapter des jeux de société à un contexte pédagogique",
+                steps: [
+                    "Choisissez un jeu (ex: \"Dixit\", \"Timeline\", \"Cluedo\").",
+                    "Indiquez votre matière (ex: \"Histoire\").",
+                    "Demandez : \"Comment puis-je adapter les règles du jeu [Nom du jeu] pour réviser [Matière] ? Propose une variante pédagogique complète.\""
+                ]
+            },
+            35: {
+                title: "Créer des supports de mémorisation (flashcards, cartes mentales)",
+                steps: [
+                    "Fournissez votre leçon ou un résumé.",
+                    "Demandez : \"À partir de ce cours, génère le contenu pour 10 flashcards (Recto: Question/Terme, Verso: Réponse/Définition).\"",
+                    "Alternative : \"Propose une structure de carte mentale (cœur et branches) pour ce cours.\""
+                ]
+            },
+            37: {
+                title: "Rédiger des commentaires et messages d'encouragement pour les élèves",
+                steps: [
+                    "Décrivez un profil d'élève (ex: \"élève sérieux mais qui manque de confiance\", \"élève bavard mais créatif\").",
+                    "Demandez : \"Rédige 3 exemples de commentaires d'encouragement pour le bulletin de [profil élève], en mettant l'accent sur les progrès et les points forts.\""
+                ]
+            },
+            39: {
+                title: "Générer une série de questions de révision pour préparer un CCF",
+                steps: [
+                    "Indiquez le module ou la compétence visée par le CCF.",
+                    "Demandez : \"Génère une série de 10 questions de révision pour préparer un CCF sur [compétence]. Varie les types de questions (QCM, définition, petite analyse de cas).\""
+                ]
+            },
+            41: {
+                title: "Générer une liste de tâches quotidiennes ou hebdomadaires pour la gestion d'un service",
+                steps: [
+                    "Décrivez le service (ex: \"Chef de travaux\", \"Directeur délégué PFMP\").",
+                    "Demandez : \"Génère une checklist (liste de tâches) type, organisée par fréquence (quotidienne, hebdomadaire, mensuelle) pour [rôle].\""
+                ]
+            },
+            62: {
+                title: "Méta-analyse de recherche : demander à l'IA de synthétiser dix articles de recherche",
+                steps: [
+                    "(Si Mistral ou autre LLM au choix le permet) Uploadez les 10 PDF. (Sinon) Copiez-collez les 10 résumés (abstracts).",
+                    "Demandez : \"À partir de ces articles, réalise une méta-analyse.\"",
+                    "Précisez : \"Identifie (1) la problématique commune, (2) les méthodologies dominantes, (3) les points de consensus dans les résultats, et (4) les points de divergence.\""
+                ]
+            },
+            63: {
+                title: "Cartographie des Compétences : L'IA analyse les travaux et génère une carte visuelle",
+                steps: [
+                    "Copiez-collez plusieurs travaux d'un élève (anonymisés) ou vos feedbacks.",
+                    "Indiquez la liste des compétences cibles.",
+                    "Demandez : \"Analyse ces productions et évalue le niveau de maîtrise de l'élève sur [compétences].\"",
+                    "(IA Visuelle) \"Présente cette analyse sous forme de diagramme 'radar' (toile d'araignée).\""
+                ]
+            },
+            64: {
+                title: "Création d'un Tuteur IA Personnalisé : Utiliser une API pour développer un tuteur",
+                steps: [
+                    "(Prérequis : compétences en code ou NoCode).",
+                    "(Mistral ou autre LLM au choix) Demandez : \"Génère un extrait de code [Python/JS] de base pour appeler l'API [OpenAI/Google] avec un prompt système.\"",
+                    "Le prompt système devra être : \"Tu es 'ProfBot', un tuteur expert en [Matière]. Ta mission est d'aider les élèves de [Niveau] en...\"",
+                    "Intégrez ce code dans une interface web simple (ex: Replit, Glitch)."
+                ]
+            },
+            65: {
+                title: "Analyse Prédictive : Identifier les profils d'élèves à risque à partir de données",
+                steps: [
+                    "(Mistral ou autre LLM au choix avec capacité d'analyse) Uploadez un tableur (CSV/Excel) de données anonymisées (ex: notes T1, T2, nb_absences).",
+                    "Demandez : \"Analyse ce jeu de données. Identifie les 3 principaux indicateurs qui semblent corréler avec [colonne 'difficulté' ou 'décrochage'].\""
+                ]
+            },
+            66: {
+                title: "Fine-Tuning d'un Modèle : Entraîner une IA avec ses propres cours",
+                steps: [
+                    "(Prérequis : compétence technique).",
+                    "Rassemblez un grand volume de vos cours (format Question/Réponse idéalement).",
+                    "Utilisez l'interface de \"fine-tuning\" d'une API (ex: OpenAI).",
+                    "Uploadez votre jeu de données formaté (ex: JSONL) et lancez le processus.",
+                    "Appelez le nouveau modèle personnalisé via l'API."
+                ]
+            },
+            67: {
+                title: "Prompt Engineering Avancé : Développer des 'meta-prompts'",
+                steps: [
+                    "Un \"meta-prompt\" est un prompt qui génère d'autres prompts.",
+                    "Demandez à Mistral ou autre LLM au choix : \"Tu es un expert en 'prompt engineering' pour l'éducation.\"",
+                    "\"Je veux créer des exercices de maths. Pose-moi 5 questions (sur le niveau, le type d'exercice, la notion) dont tu as besoin pour générer un prompt parfait pour une autre IA.\""
+                ]
+            },
+            68: {
+                title: "Rédiger une trame de rapport financier simplifié (dépenses/recettes)",
+                steps: [
+                    "Indiquez le contexte (ex: \"Bilan financier de la coopérative scolaire\").",
+                    "Demandez : \"Crée une trame de rapport financier simplifié pour [contexte].\"",
+                    "Précisez : \"Inclus des sections claires : [Solde initial], [Total des recettes (détaillé par poste)], [Total des dépenses (détaillé par poste)], [Solde final].\""
+                ]
+            },
+            69: {
+                title: "Entraîner une IA à reconnaître des postures du corps humain",
+                steps: [
+                    "Utilisez un outil (ex: Teachable Machine de Google - mode \"Pose\").",
+                    "Créez les catégories (ex: \"Bras levé\", \"Assis avachi\", \"Debout attentif\").",
+                    "Activez votre webcam et prenez de nombreuses photos de vous dans chaque posture.",
+                    "Lancez l'entraînement du modèle et testez-le en direct."
+                ]
+            }
+        };
+        
+        const help = helpContent[challengeId];
+        
+        if (help) {
+            content.innerHTML = `
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <p class="text-blue-800 font-medium">💡 ${help.title}</p>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="font-semibold text-gray-800 mb-3">📋 Pas à pas :</h4>
+                    <ol class="space-y-2">
+                        ${help.steps.map((step, index) => `
+                            <li class="flex items-start gap-3">
+                                <span class="flex-shrink-0 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                    ${index + 1}
+                                </span>
+                                <span class="text-gray-700 leading-relaxed">${step}</span>
+                            </li>
+                        `).join('')}
+                    </ol>
+                </div>
+                <div class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                    <p class="text-green-800 text-sm">
+                        <strong>💡 Conseil :</strong> N'hésitez pas à adapter ces étapes selon vos besoins spécifiques et à poser des questions sur le forum Magistère si vous rencontrez des difficultés !
+                    </p>
+                </div>
+            `;
+        } else {
+            // Message par défaut pour les défis sans pas à pas
+            content.innerHTML = `
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <p class="text-blue-800 font-medium">💡 Aide pour le défi #${challengeId}</p>
+                </div>
+                <p class="mb-4">Les explications détaillées pour ce défi seront bientôt disponibles.</p>
+                <p class="text-gray-600 italic">En attendant, n'hésitez pas à consulter les outils suggérés ou à poser vos questions sur le forum Magistère.</p>
+            `;
+        }
+        
+        modal.classList.remove('hidden');
+    }
+
+    function closeHelpModal() {
+        const modal = document.getElementById('helpModal');
+        modal.classList.add('hidden');
+    }
+
+    function generateNotesPage() {
+        const container = document.getElementById('notesContainer');
+        container.innerHTML = '';
+
+        // Combiner les défis sélectionnés et les favoris (sans doublons)
+        const allSelectedIds = [...new Set([...selectedChallenges, ...favorites])];
+
+        allSelectedIds.forEach(id => {
+            const challenge = challenges.find(c => c.id === id);
+            const noteCard = document.createElement('div');
+            noteCard.className = 'bg-white rounded-xl shadow-lg p-6';
+
+            noteCard.innerHTML = `
+                <div class="flex justify-between items-start mb-4">
+                    <span class="px-3 py-1 rounded-full text-sm font-medium ${getNiveauColor(challenge.niveau)}">
+                        ${challenge.niveau}
+                    </span>
+                    <span class="text-2xl">${favorites.includes(challenge.id) ? '❤️' : ''}</span>
+                </div>
+                <div class="mb-4">
+                    <div class="text-3xl mb-3">${challenge.media}</div>
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">${challenge.defi}</h3>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-3 py-1 rounded-full text-sm font-medium ${getThematiqueColor(challenge.thematique)}">
+                            ${challenge.thematique}
+                        </span>
+                        <button class="help-btn bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2" data-id="${id}">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                            </svg>
+                            J'ai besoin d'aide
+                        </button>
+                    </div>
+                    ${challenge.outils ? `
+                        <div class="mt-3 p-3 bg-gray-50 rounded-lg">
+                            <p class="text-sm text-gray-600 font-medium mb-1">🛠️ Outils suggérés :</p>
+                            <p class="text-sm text-gray-700">${challenge.outils}</p>
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="border-t pt-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        📝 Mes notes personnelles :
+                    </label>
+                    <textarea 
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                        rows="1"
+                        placeholder="..."
+                        data-note-id="${id}"
+                    >${notes[id] || ''}</textarea>
+                </div>
+                <div class="border-t pt-4 mt-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                        📊 Mon auto-évaluation :
+                    </label>
+                    <div class="space-y-3">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2" data-eval-id="${id}" data-eval-type="autonomie">
+                            <span class="ml-3 text-sm text-gray-700">✅ Je peux refaire en autonomie</span>
+                        </label>
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500 focus:ring-2" data-eval-id="${id}" data-eval-type="pratique">
+                            <span class="ml-3 text-sm text-gray-700">🔄 J'ai besoin de pratique</span>
+                        </label>
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 focus:ring-2" data-eval-id="${id}" data-eval-type="inutile">
+                            <span class="ml-3 text-sm text-gray-700">❌ Ça ne m'apporte rien</span>
+                        </label>
+                    </div>
+                </div>
+            `;
+
+            const textarea = noteCard.querySelector('textarea');
+            textarea.addEventListener('input', (e) => {
+                notes[id] = e.target.value;
+            });
+
+            // Ajuster la hauteur lors de la saisie
+            function autoResize() {
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + 'px';
+            }
+
+            textarea.addEventListener('input', autoResize);
+            autoResize();
+
+            // Gérer les cases d'auto-évaluation
+            const evalCheckboxes = noteCard.querySelectorAll('input[type="checkbox"]');
+            evalCheckboxes.forEach(checkbox => {
+                const evalId = checkbox.dataset.evalId;
+                const evalType = checkbox.dataset.evalType;
+                
+                // Restaurer l'état sauvegardé
+                if (evaluations[evalId] && evaluations[evalId][evalType]) {
+                    checkbox.checked = true;
+                }
+                
+                checkbox.addEventListener('change', (e) => {
+                    if (!evaluations[evalId]) {
+                        evaluations[evalId] = {};
+                    }
+                    evaluations[evalId][evalType] = e.target.checked;
+                });
+            });
+
+            // Gérer le bouton d'aide dans les notes
+            const helpBtnInNotes = noteCard.querySelector('.help-btn');
+            helpBtnInNotes.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showHelpModal(id);
+            });
+
+            container.appendChild(noteCard);
+        });
+    }
+
+    function generatePrintPage() {
+        // Combiner les défis sélectionnés et les favoris (sans doublons)
+        const allSelectedIds = [...new Set([...selectedChallenges, ...favorites])];
+        
+        let printContent = `
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Mon Plan de Formation IA Pédagogique</title>
+            <style>
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    line-height: 1.6;
+                    color: #333;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    background: white;
+                }
+                .header {
+                    text-align: center;
+                    margin-bottom: 40px;
+                    border-bottom: 3px solid #3b82f6;
+                    padding-bottom: 20px;
+                }
+                .header h1 {
+                    color: #1e40af;
+                    margin-bottom: 10px;
+                    font-size: 2.5em;
+                }
+                .header p {
+                    color: #6b7280;
+                    font-size: 1.1em;
+                }
+                .challenge-card {
+                    border: 2px solid #e5e7eb;
+                    border-radius: 12px;
+                    padding: 20px;
+                    margin-bottom: 25px;
+                    background: #f9fafb;
+                    break-inside: avoid;
+                }
+                .challenge-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 15px;
+                }
+                .niveau-badge {
+                    padding: 6px 12px;
+                    border-radius: 20px;
+                    font-size: 0.85em;
+                    font-weight: bold;
+                }
+                .niveau-1 { background: #dcfce7; color: #166534; }
+                .niveau-2 { background: #fed7aa; color: #c2410c; }
+                .niveau-3 { background: #fecaca; color: #dc2626; }
+                .niveau-4 { background: #e9d5ff; color: #7c3aed; }
+                .favorite-heart {
+                    font-size: 1.5em;
+                }
+                .challenge-content h3 {
+                    color: #1f2937;
+                    margin-bottom: 10px;
+                    font-size: 1.2em;
+                }
+                .thematique-badge {
+                    display: inline-block;
+                    padding: 4px 10px;
+                    border-radius: 15px;
+                    font-size: 0.8em;
+                    font-weight: 500;
+                    margin-bottom: 15px;
+                    background: #dbeafe;
+                    color: #1e40af;
+                }
+                .outils-section {
+                    background: #f3f4f6;
+                    padding: 12px;
+                    border-radius: 8px;
+                    margin-bottom: 15px;
+                }
+                .outils-section p {
+                    margin: 5px 0;
+                    font-size: 0.9em;
+                }
+                .notes-section {
+                    border-top: 2px solid #e5e7eb;
+                    padding-top: 15px;
+                }
+                .notes-label {
+                    font-weight: bold;
+                    color: #374151;
+                    margin-bottom: 8px;
+                }
+                .notes-content {
+                    background: white;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                    padding: 12px;
+                    min-height: 60px;
+                    white-space: pre-wrap;
+                    font-style: italic;
+                    color: #4b5563;
+                }
+                .eval-section {
+                    border-top: 2px solid #e5e7eb;
+                    padding-top: 15px;
+                    margin-top: 15px;
+                }
+                .eval-label {
+                    font-weight: bold;
+                    color: #374151;
+                    margin-bottom: 8px;
+                }
+                .eval-options {
+                    display: flex;
+                    gap: 15px;
+                    flex-wrap: wrap;
+                }
+                .eval-option {
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 0.8em;
+                    font-weight: 500;
+                }
+                .eval-checked {
+                    background: #dcfce7;
+                    color: #166534;
+                }
+                .eval-unchecked {
+                    background: #f3f4f6;
+                    color: #6b7280;
+                }
+                .summary {
+                    background: #eff6ff;
+                    border: 2px solid #3b82f6;
+                    border-radius: 12px;
+                    padding: 20px;
+                    margin-bottom: 30px;
+                    text-align: center;
+                }
+                .summary h2 {
+                    color: #1e40af;
+                    margin-bottom: 10px;
+                }
+                .footer {
+                    margin-top: 40px;
+                    padding-top: 20px;
+                    border-top: 2px solid #e5e7eb;
+                    text-align: center;
+                    color: #6b7280;
+                    font-size: 0.9em;
+                }
+                @media print {
+                    body { margin: 0; padding: 15px; }
+                    .challenge-card { break-inside: avoid; }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🤖 Mon Plan de Formation IA Pédagogique</h1>
+                <p>Plan personnalisé généré le ${new Date().toLocaleDateString('fr-FR', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })}</p>
+            </div>
+
+            <div class="summary">
+                <h2>📊 Résumé de mon plan</h2>
+                <p><strong>${allSelectedIds.length} défi${allSelectedIds.length > 1 ? 's' : ''} sélectionné${allSelectedIds.length > 1 ? 's' : ''}</strong></p>
+                <p><strong>${favorites.length} défi${favorites.length > 1 ? 's' : ''} favori${favorites.length > 1 ? 's' : ''}</strong> ❤️</p>
+            </div>
+        `;
+
+        allSelectedIds.forEach(id => {
+            const challenge = challenges.find(c => c.id === id);
+            const niveauClass = `niveau-${challenge.niveau.split(' ')[1]}`;
+            const noteContent = notes[id] || 'Aucune note ajoutée';
+            
+            // Récupérer les évaluations pour ce défi
+            const evalData = evaluations[id] || {};
+            const evalOptions = [
+                { key: 'autonomie', label: '✅ Je peux refaire en autonomie', checked: evalData.autonomie },
+                { key: 'pratique', label: '🔄 J\'ai besoin de pratique', checked: evalData.pratique },
+                { key: 'inutile', label: '❌ Ça ne m\'apporte rien', checked: evalData.inutile }
+            ];
+            
+            printContent += `
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <span class="niveau-badge ${niveauClass}">${challenge.niveau}</span>
+                    <span class="favorite-heart">${favorites.includes(challenge.id) ? '❤️' : ''}</span>
+                </div>
+                <div class="challenge-content">
+                    <div style="font-size: 1.8em; margin-bottom: 10px;">${challenge.media}</div>
+                    <h3>${challenge.defi}</h3>
+                    <span class="thematique-badge">${challenge.thematique}</span>
+                    ${challenge.outils ? `
+                        <div class="outils-section">
+                            <p><strong>🛠️ Outils suggérés :</strong></p>
+                            <p>${challenge.outils}</p>
+                            ${challenge.mention ? `
+                                <p style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 0.8em; margin-top: 8px;">
+                                    ${challenge.mention}
+                                </p>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="notes-section">
+                    <div class="notes-label">📝 Mes notes personnelles :</div>
+                    <div class="notes-content">${noteContent}</div>
+                </div>
+                <div class="eval-section">
+                    <div class="eval-label">📊 Mon auto-évaluation :</div>
+                    <div class="eval-options">
+                        ${evalOptions.map(option => `
+                            <span class="eval-option ${option.checked ? 'eval-checked' : 'eval-unchecked'}">
+                                ${option.label}
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+
+        printContent += `
+            <div class="footer">
+                <p>Plan généré avec l'outil "Défi IA Pédagogique"</p>
+                <p>Création de <strong>Marie-Charlotte Hoyer</strong> et <strong>Donatien Wagner</strong> pour la <strong>DRANE Orléans-Tours</strong> (2025)</p>
+                <p>Sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons 4.0 BY-NC-SA</a></p>
+            </div>
+        </body>
+        </html>
+        `;
+
+        return printContent;
+    }
+
+    function printCurrentPage() {
+        const printContent = generatePrintPage();
+        const printWindow = window.open('', '_blank', 'width=800,height=600');
+        
+        if (printWindow) {
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            
+            // Attendre que le contenu soit chargé avant d'imprimer
+            printWindow.onload = function() {
+                setTimeout(() => {
+                    printWindow.print();
+                }, 500);
+            };
+        } else {
+            // Fallback si le popup est bloqué
+            const message = document.createElement('div');
+            message.className = 'fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded z-50';
+            message.textContent = 'Veuillez autoriser les popups pour imprimer votre plan de travail.';
+            document.body.appendChild(message);
+            setTimeout(() => message.remove(), 5000);
+        }
+    }
+
+    function switchToNotesPage() {
+        const selectionPage = document.getElementById('selectionPage');
+        const notesPage = document.getElementById('notesPage');
+        const floatingBtn = document.getElementById('floatingValidateBtn');
+        const printBtn = document.getElementById('printButton');
+        
+        selectionPage.classList.remove('page-active');
+        selectionPage.classList.add('hidden');
+        
+        floatingBtn.style.display = 'none';
+        printBtn.style.display = 'block';
+        
+        setTimeout(() => {
+            notesPage.classList.remove('hidden');
+            setTimeout(() => {
+                notesPage.classList.add('page-active');
+                updateTabNavigation('notes');
+            }, 50);
+        }, 300);
+        
+        generateNotesPage();
+    }
+
+    function switchToSelectionPage() {
+        const themePage = document.getElementById('themePage');
+        const selectionPage = document.getElementById('selectionPage');
+        const notesPage = document.getElementById('notesPage');
+        const floatingBtn = document.getElementById('floatingValidateBtn');
+        const printBtn = document.getElementById('printButton');
+        
+        // Si on vient de la page des notes
+        if (!notesPage.classList.contains('hidden')) {
+            notesPage.classList.remove('page-active');
+            printBtn.style.display = 'none';
+            if (selectedChallenges.length > 0) {
+                floatingBtn.style.display = 'block';
+            }
+            
+            setTimeout(() => {
+                notesPage.classList.add('hidden');
+                selectionPage.classList.remove('hidden');
+                setTimeout(() => {
+                    selectionPage.classList.add('page-active');
+                    updateTabNavigation('selection');
+                    generateCards();
+                }, 50);
+            }, 300);
+        } else {
+            // Si on vient de la page des thématiques
+            themePage.classList.remove('page-active');
+            themePage.classList.add('hidden');
+            
+            setTimeout(() => {
+                generateCards();
+                selectionPage.classList.remove('hidden');
+                setTimeout(() => {
+                    selectionPage.classList.add('page-active');
+                    updateTabNavigation('selection');
+                }, 50);
+            }, 300);
+        }
+    }
+
+    // Event listeners
+    document.getElementById('validatePlan').addEventListener('click', switchToNotesPage);
+    
+    // Modal d'aide
+    document.getElementById('closeHelpModal').addEventListener('click', closeHelpModal);
+    document.getElementById('helpModal').addEventListener('click', (e) => {
+        if (e.target.id === 'helpModal') {
+            closeHelpModal();
+        }
+    });
+    
+    // Navigation via les onglets
+    document.getElementById('tab-levels').addEventListener('click', () => {
+        switchToLevelPage();
+    });
+    
+    document.getElementById('tab-themes').addEventListener('click', () => {
+        if (currentLevel && document.getElementById('tab-themes').classList.contains('available')) {
+            switchToThemePage(currentLevel);
+        }
+    });
+    
+    document.getElementById('tab-selection').addEventListener('click', () => {
+        if (currentLevel && currentTheme && document.getElementById('tab-selection').classList.contains('available')) {
+            switchToSelectionPage();
+        }
+    });
+    
+    document.getElementById('tab-notes').addEventListener('click', () => {
+        if ((selectedChallenges.length > 0 || favorites.length > 0) && document.getElementById('tab-notes').classList.contains('available')) {
+            switchToNotesPage();
+        }
+    });
+    
+    // Bouton flottant
+    document.getElementById('floatingValidateBtn').addEventListener('click', switchToNotesPage);
+    
+    // Boutons d'impression
+    document.addEventListener('click', (e) => {
+        if (e.target.id === 'printCurrentPage') {
+            printCurrentPage();
+        }
+    });
+
+    // Navigation par niveaux
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.level-card')) {
+            const level = e.target.closest('.level-card').dataset.level;
+            switchToThemePage(level);
+        }
+    });
+
+    // Initialisation
+    updateTabNavigation('levels');
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99bfbfe37323f0e8',t:'MTc2MjcxNjg4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: medium; visibility: hidden;"></iframe>
+</body></html>
