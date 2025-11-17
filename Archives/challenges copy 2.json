@@ -1,0 +1,55 @@
+{
+    "courriel": {
+        "title": "Données, décisions et IA en action !",
+        "icon": "🤖",
+        "category": "assistante",
+        "iconBg": "bg-blue-100",
+        "tags": [
+            {"label": "Gouvernance", "color": "bg-blue-100 text-blue-800"},
+            {"label": "Données", "color": "bg-green-100 text-green-800"}
+        ],
+        "description": "Relevez le défi ! À partir de cette fiche établissement, explorez comment une IA générative peut vous aider à comprendre, synthétiser et valoriser les données. En petits groupes, sélectionnez des indicateurs clés, demandez à l’IA une première lecture ou mise en forme (analyse, synthèse ou reformulation) puis transformez cette production en un support concret de pilotage. Votre mission : expérimenter une utilisation simple et directe de l’IA comme assistant d’aide à la décision.",
+        "tools": [
+            "Fiche établissement fictive",
+            "Outil d’IA générative (ChatGPT, Perplexity Mistral, etc.)",
+            "Tableur (Excel )",
+            "Modèle de fiche synthèse (Word, PowerPoint ou format papier)",
+            "Tableau collaboratif (apps éducation, la digitale)"
+        ],
+        "steps": [
+            {
+                "title": "1.",
+                "content": "Lisez rapidement la fiche établissement et repérez les indicateurs saillants."
+            },
+            {
+                "title": "2.",
+                "content": "Choisissez trois données clés représentatives d’un enjeu de pilotage (réussite, climat, orientation, ressources…)."
+            },
+            {
+                "title": "3. ",
+                "content": "Vérifier que tous les éléments réglementaires (assurance, dates légales de stage, convention) sont exacts et conformes à la réglementation en vigueur."
+            },
+            {
+                "title": "4. ",
+                "content": "S'assurer que le prompt ne contenait aucune donnée personnelle de l'élève (nom, prénom, notes) ; ces informations sont à ajouter manuellement après la génération."
+            }
+        ],
+        "help": {
+            "difficulty": "⭐⭐ Facile",
+            "duration": "15-20 minutes",
+            "tips": [
+                "Commencez par définir clairement le contexte : 'Tu es un assistant administratif d'un CPE'",
+                "Précisez le type de stage (observation, application) et la durée",
+                "N'oubliez pas les mentions légales : assurance, convention de stage",
+                "Gardez un ton professionnel mais bienveillant"
+            ],
+            "example": "Exemple de prompt : 'Rédige un courriel formel pour demander un stage d'observation de 3e dans une boulangerie. Le courriel doit inclure les éléments réglementaires et être adressé au gérant.'",
+            "pitfalls": [
+                "Ne jamais inclure de vraies données personnelles dans le prompt",
+                "Vérifier que les dates de stage respectent le calendrier scolaire",
+                "S'assurer que la convention de stage est mentionnée"
+            ]
+        }
+    }
+    
+}
