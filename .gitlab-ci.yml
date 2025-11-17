@@ -1,0 +1,22 @@
+# Configuration pour GitLab Pages
+# Les fichiers statiques doivent être dans le dossier 'public' pour être servis
+
+pages:
+  stage: deploy
+  script:
+    # Créer le dossier public s'il n'existe pas
+    - mkdir -p public
+    # Copier tous les fichiers nécessaires dans le dossier public
+    - cp index.html public/
+    - cp styles.css public/
+    - cp script.js public/
+    - cp challenges.json public/
+    - cp -r Archives public/ || true
+    - cp README.md public/ || true
+  artifacts:
+    paths:
+      - public
+  rules:
+    # Déployer uniquement sur la branche principale ou les branches de déploiement
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^claude\//
