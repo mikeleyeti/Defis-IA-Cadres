@@ -391,6 +391,11 @@ function renderChallenges(containerId, category) {
                     </div>
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">Défi ${index + 1}: ${challenge.title}</h3>
+                        <div class="mb-2">
+                            <span class="inline-block px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full font-medium">
+                                ${challenge.help.difficulty}
+                            </span>
+                        </div>
                         <p class="text-gray-600 mb-3">${challenge.description}</p>
                         <div class="flex flex-wrap gap-2">${tagsHtml}</div>
                     </div>
