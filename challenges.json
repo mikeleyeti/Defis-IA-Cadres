@@ -62,5 +62,71 @@
                 "Oublier que la décision finale appartient à l'équipe de pilotage."
             ]
         }
+    },
+    "communication_synthese": {
+        "title": "IA & Synthèse : Jouez la carte de la communication !",
+        "icon": "💬",
+        "category": "assistante",
+        "iconBg": "bg-blue-100",
+        "tags": [
+            {"label": "Gouvernance", "color": "bg-purple-100 text-purple-800"},
+            {"label": "IA générative", "color": "bg-indigo-100 text-indigo-800"},
+            {"label": "Synthèse", "color": "bg-teal-100 text-teal-800"},
+            {"label": "Communication", "color": "bg-pink-100 text-pink-800"},
+            {"label": "Projet d'établissement", "color": "bg-yellow-100 text-yellow-800"},
+            {"label": "Visualisation des données", "color": "bg-cyan-100 text-cyan-800"}
+        ],
+        "description": "Relevez le défi ! À partir d'une fiche fictive de projet d'établissement, vous utiliserez une IA pour produire un diaporama ou une note stratégique destinée à enrichir le projet d'établissement et le dialogue avec les équipes. Votre mission : expérimenter la génération automatisée de supports de présentation efficaces et pertinents.",
+        "tools": [
+            "Fiche établissement fictive rédigée lors d'un conseil d'enseignement ou réunion d'équipe",
+            "Outil d'IA générative (ChatGPT, Perplexity, Gemini, Mistral, etc.)",
+            "PowerPoint, Canva pour la mise en forme",
+            "Traitement de texte (Word, Docs) pour produire un résumé stratégique"
+        ],
+        "steps": [
+            {
+                "title": "Lecture rapide de la fiche projet",
+                "content": "Lecture rapide de la fiche projet pour repérer les données clés."
+            },
+            {
+                "title": "Choix des indicateurs",
+                "content": "Choix de 2 à 3 indicateurs ou éléments importants."
+            },
+            {
+                "title": "Élaboration du prompt",
+                "content": "Élaboration collective d'un prompt clair pour demander à l'IA une synthèse ou un plan de présentation."
+            },
+            {
+                "title": "Analyse critique",
+                "content": "Analyse et ajustement critique de la production de l'IA par le groupe."
+            },
+            {
+                "title": "Mise en forme",
+                "content": "Mise en forme simple du support généré (texte ou diaporama)."
+            },
+            {
+                "title": "Partage et discussion",
+                "content": "Partage en 3 minutes de la synthèse et discussion sur les apports et limites de l'approche."
+            }
+        ],
+        "help": {
+            "difficulty": "⭐⭐⭐ Moyenne (manipulation guidée de l'IA et vérification critique)",
+            "duration": "45 minutes",
+            "tips": [
+                "Formulez des prompts précis et contextualisés. Indiquez toujours à l'IA le public visé (équipe, partenaires, inspection, conseil d'administration).",
+                "Demandez à l'IA de générer plusieurs versions (résumé court, visuel, argumentaire).",
+                "Vérifiez que les formulations restent fidèles aux données réelles et au ton institutionnel.",
+                "Ne jamais prendre pour acquis les réponses de l'IA, toujours vérifier et ajuster.",
+                "Valorisez la collaboration pour enrichir l'interprétation.",
+                "Gardez un ton simple et accessible dans les productions."
+            ],
+            "example": "Prompt : « À partir des données suivantes sur la réussite, l'absentéisme et l'orientation, crée une synthèse pour un diaporama de 3 diapositives à présenter en réunion pédagogique. Mets en avant les points forts, les enjeux et une recommandation. »",
+            "pitfalls": [
+                "Se contenter de la première version sans vérifier les erreurs factuelles.",
+                "Laisser l'IA adopter un ton trop éloigné du style institutionnel.",
+                "Choisir un format trop ambitieux pour le temps imparti.",
+                "Négliger la discussion collective sur la valeur ajoutée de ces outils."
+            ]
+        }
     }
 }
