@@ -73,7 +73,6 @@ function viewTrainingPlan() {
         const challenge = challenges[item.id];
         const skillNames = {
             'assistante': 'L\'IA comme assistante',
-            'pedagogie': 'Construction de scénarii pédagogiques',
             'pilotage': 'L\'IA comme outil de pilotage'
         };
         const levelNames = {
@@ -188,7 +187,6 @@ function closePlanModal() {
 function printTrainingPlan() {
     const skillNames = {
         'assistante': 'L\'IA comme assistante',
-        'pedagogie': 'Construction de scénarii pédagogiques',
         'pilotage': 'L\'IA comme outil de pilotage'
     };
     const levelNames = {
@@ -426,12 +424,10 @@ function selectSkill(skill) {
     // Masquer tous les groupes de défis
     document.querySelectorAll('[id^="challenges-"]').forEach(el => el.classList.add('hidden'));
 
-    // Afficher le bon groupe selon la compétence (niveau découverte uniquement pour cette version)
+    // Afficher le bon groupe selon la compétence
     let challengeGroup = '';
     if (skill === 'assistante') {
         challengeGroup = 'challenges-assistante';
-    } else if (skill === 'pedagogie') {
-        challengeGroup = 'challenges-pedagogie';
     } else if (skill === 'pilotage') {
         challengeGroup = 'challenges-pilotage';
     }

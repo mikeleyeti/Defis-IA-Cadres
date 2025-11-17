@@ -75,21 +75,13 @@
       <h2 class="text-2xl font-semibold text-gray-800 mb-4">Choisissez la compétence à travailler</h2>
       <p class="text-gray-600">Sélectionnez l'axe de travail qui vous intéresse</p>
      </div>
-     <div class="grid md:grid-cols-3 gap-6">
+     <div class="grid md:grid-cols-2 gap-6">
       <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectSkill('assistante')">
        <div class="text-center">
         <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">🤖</span>
         </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">L'IA générative comme assistante</h3>
         <p class="text-gray-600">Utiliser l'IA pour vous aider dans vos tâches quotidiennes</p>
-       </div>
-      </div>
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectSkill('pedagogie')">
-       <div class="text-center">
-        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">🎓</span>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">Construction de scénarii pédagogiques</h3>
-        <p class="text-gray-600">Créer des séances éducatives avec l'aide de l'IA</p>
        </div>
       </div>
       <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectSkill('pilotage')">
@@ -110,9 +102,6 @@
       <p class="text-gray-600">Sélectionnez le défi que vous souhaitez relever</p>
      </div>
      <div id="challenges-assistante" class="space-y-6">
-      <!-- Les défis seront générés dynamiquement par JavaScript -->
-     </div>
-     <div id="challenges-pedagogie" class="space-y-6 hidden">
       <!-- Les défis seront générés dynamiquement par JavaScript -->
      </div>
      <div id="challenges-pilotage" class="space-y-6 hidden">
