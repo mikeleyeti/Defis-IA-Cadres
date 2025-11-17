@@ -128,5 +128,69 @@
                 "Négliger la discussion collective sur la valeur ajoutée de ces outils."
             ]
         }
+    },
+    "strategie_evaluation": {
+        "title": "IAgissons ! Quand l'intelligence artificielle inspire la stratégie",
+        "icon": "🤖",
+        "category": "pilotage",
+        "iconBg": "bg-red-100",
+        "tags": [
+            {"label": "Gouvernance", "color": "bg-purple-100 text-purple-800"},
+            {"label": "Évaluation", "color": "bg-green-100 text-green-800"},
+            {"label": "Données", "color": "bg-blue-100 text-blue-800"},
+            {"label": "Décision", "color": "bg-emerald-100 text-emerald-800"},
+            {"label": "IA générative", "color": "bg-indigo-100 text-indigo-800"},
+            {"label": "Pilotage", "color": "bg-red-100 text-red-800"},
+            {"label": "Innovation", "color": "bg-violet-100 text-violet-800"}
+        ],
+        "description": "Relevez le défi ! À partir d'un extrait de rapport d'évaluation externe d'établissement, mobilisez une IA générative pour identifier les priorités d'action et formuler un scénario de mise en œuvre réaliste. En équipe, analysez les constats, interrogez l'IA pour dégager des leviers d'amélioration, puis concevez en 45 minutes un plan d'action synthétique. Votre mission : expérimenter la manière dont l'IA peut soutenir le raisonnement stratégique et la traduction des recommandations en projets concrets.",
+        "tools": [
+            "Extrait de rapport d'évaluation externe (réel anonymisé)",
+            "Outil d'IA générative (ChatGPT, Perplexity, Mistral, etc.)",
+            "Tableur (Excel, Sheets…)",
+            "Modèle de plan d'action (Word, PowerPoint ou format papier)",
+            "Tableau collaboratif (La Digitale, Canva Éducation, ...)"
+        ],
+        "steps": [
+            {
+                "title": "Prise de connaissance du rapport",
+                "content": "Prenez connaissance du rapport d'évaluation et repérez les constats majeurs."
+            },
+            {
+                "title": "Sélection des points critiques",
+                "content": "Sélectionnez deux ou trois points critiques à traiter en priorité (par exemple : réussite des élèves, climat scolaire, pilotage)."
+            },
+            {
+                "title": "Rédaction du prompt stratégique",
+                "content": "Rédigez un prompt à destination de l'IA pour obtenir une interprétation ou une proposition de leviers d'action (exemple : « À partir de ces extraits, identifie trois axes d'amélioration et propose des premières pistes d'action. »)."
+            },
+            {
+                "title": "Analyse et confrontation",
+                "content": "Analysez la réponse générée, confrontez-la à votre expertise et reformulez les propositions si besoin."
+            },
+            {
+                "title": "Élaboration du plan d'action",
+                "content": "Élaborez un mini plan d'action ou un scénario de mise en œuvre en précisant les leviers, acteurs et indicateurs de réussite."
+            },
+            {
+                "title": "Présentation du plan",
+                "content": "Présentez en 3 minutes le cœur de votre plan d'action et ce que l'IA a apporté à votre réflexion."
+            }
+        ],
+        "help": {
+            "difficulty": "⭐⭐⭐⭐ Forte",
+            "duration": "45 minutes",
+            "tips": [
+                "Demandez à l'IA d'expliquer ou de reformuler avant de lui faire générer des actions.",
+                "Confrontez les suggestions entre groupes pour enrichir les approches.",
+                "Valorisez l'expertise humaine : l'IA aide à structurer, mais la vision reste celle du chef d'établissement."
+            ],
+            "example": "« À partir des éléments du rapport d'évaluation externe suivants (pilotage pédagogique, suivi du climat scolaire, partenariats locaux), propose un plan d'action en trois axes avec des indicateurs de suivi. »",
+            "pitfalls": [
+                "Prendre les propositions de l'IA sans les adapter au contexte réel.",
+                "Formuler un prompt trop flou ou trop complexe.",
+                "Négliger la mise en cohérence avec les priorités institutionnelles et le projet d'établissement."
+            ]
+        }
     }
 }
