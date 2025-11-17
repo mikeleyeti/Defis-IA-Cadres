@@ -70,20 +70,20 @@ function viewTrainingPlan() {
 
                 <div class="p-6 space-y-4">
                     ${trainingPlan.map((item, index) => {
-                        const challenge = challenges[item.id];
-                        const skillNames = {
-                            'assistante': 'L\'IA comme assistante',
-                            'pedagogie': 'Construction de scénarii pédagogiques',
-                            'pilotage': 'L\'IA comme outil de pilotage'
-                        };
-                        const levelNames = {
-                            'decouverte': 'Découverte',
-                            'approfondissement': 'Approfondissement',
-                            'maitrise': 'Maîtrise',
-                            'expertise': 'Expertise'
-                        };
+        const challenge = challenges[item.id];
+        const skillNames = {
+            'assistante': 'L\'IA comme assistante',
+            'pedagogie': 'Construction de scénarii pédagogiques',
+            'pilotage': 'L\'IA comme outil de pilotage'
+        };
+        const levelNames = {
+            'decouverte': 'Découverte',
+            'approfondissement': 'Approfondissement',
+            'maitrise': 'Maîtrise',
+            'expertise': 'Expertise'
+        };
 
-                        return `
+        return `
                             <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-4 border border-purple-200">
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-start space-x-4 flex-1">
@@ -109,7 +109,7 @@ function viewTrainingPlan() {
                                 </div>
                             </div>
                         `;
-                    }).join('')}
+    }).join('')}
                 </div>
 
                 <div class="sticky bottom-0 bg-gray-50 p-6 rounded-b-xl border-t border-gray-200 flex justify-between items-center">
@@ -296,15 +296,15 @@ function printTrainingPlan() {
                 <h1>📋 Mon Plan de Formation</h1>
                 <p>Défis CPE et Intelligence Artificielle</p>
                 <p>Généré le ${new Date().toLocaleDateString('fr-FR', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                })}</p>
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    })}</p>
             </div>
 
             ${trainingPlan.map((item, index) => {
-                const challenge = challenges[item.id];
-                return `
+        const challenge = challenges[item.id];
+        return `
                     <div class="challenge">
                         <div class="challenge-header">
                             <span class="challenge-icon">${item.icon}</span>
@@ -319,10 +319,10 @@ function printTrainingPlan() {
                         </div>
                     </div>
                 `;
-            }).join('')}
+    }).join('')}
 
             <div class="footer">
-                <p><strong>Créé par Donatien Wagner pour la DRANE Orléans-Tours</strong></p>
+                <p><strong>Créé par la DRANE Orléans-Tours</strong></p>
                 <p>CC BY-NC 4.0 - Attribution requise • Pas d'usage commercial</p>
             </div>
         </body>

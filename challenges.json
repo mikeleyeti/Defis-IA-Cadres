@@ -48,6 +48,55 @@
             ]
         }
     },
+    "courriel_2": {
+        "title": "Rédaction de courriel formel BIS",
+        "icon": "📧",
+        "category": "assistante",
+        "iconBg": "bg-blue-100",
+        "tags": [
+            {"label": "Communication", "color": "bg-blue-100 text-blue-800"},
+            {"label": "Réglementation", "color": "bg-green-100 text-green-800"}
+        ],
+        "description": "Rédiger un courriel formel de demande de stage pour un élève auprès d'une entreprise locale, en incluant tous les éléments réglementaires.",
+        "tools": [
+            "ChatGPT/Copilot (avec vérification humaine)",
+            "WriteMail.ai (avec vigilance sur la confidentialité)"
+        ],
+        "steps": [
+            {
+                "title": "1. Cadrage du Rôle et du Sujet",
+                "content": "Définir le rôle de l'IA (ex: \"Secrétaire du CPE\"). Spécifier l'objet (courriel de demande de stage) et les contraintes (formel, éléments réglementaires)."
+            },
+            {
+                "title": "2. Génération et Ajout des Blocs",
+                "content": "Utiliser l'outil pour générer un brouillon. Demander à l'IA d'inclure : formule de politesse, présentation de l'établissement, objet de la demande, éléments pratiques (dates, assurance), formule de clôture."
+            },
+            {
+                "title": "3. Validation Légale et Formatage",
+                "content": "Vérifier que tous les éléments réglementaires (assurance, dates légales de stage, convention) sont exacts et conformes à la réglementation en vigueur."
+            },
+            {
+                "title": "4. Vigilance RGPD/Censuré",
+                "content": "S'assurer que le prompt ne contenait aucune donnée personnelle de l'élève (nom, prénom, notes) ; ces informations sont à ajouter manuellement après la génération."
+            }
+        ],
+        "help": {
+            "difficulty": "⭐⭐ Facile",
+            "duration": "15-20 minutes",
+            "tips": [
+                "Commencez par définir clairement le contexte : 'Tu es un assistant administratif d'un CPE'",
+                "Précisez le type de stage (observation, application) et la durée",
+                "N'oubliez pas les mentions légales : assurance, convention de stage",
+                "Gardez un ton professionnel mais bienveillant"
+            ],
+            "example": "Exemple de prompt : 'Rédige un courriel formel pour demander un stage d'observation de 3e dans une boulangerie. Le courriel doit inclure les éléments réglementaires et être adressé au gérant.'",
+            "pitfalls": [
+                "Ne jamais inclure de vraies données personnelles dans le prompt",
+                "Vérifier que les dates de stage respectent le calendrier scolaire",
+                "S'assurer que la convention de stage est mentionnée"
+            ]
+        }
+    },
     "simplification": {
         "title": "Simplification de texte réglementaire",
         "icon": "📝",
