@@ -78,9 +78,8 @@ function viewTrainingPlan() {
         };
         const levelNames = {
             'decouverte': 'Découverte',
-            'approfondissement': 'Approfondissement',
-            'maitrise': 'Maîtrise',
-            'expertise': 'Expertise'
+            'intermediaire': 'Intermédiaire',
+            'expert': 'Expert'
         };
 
         return `
@@ -194,9 +193,8 @@ function printTrainingPlan() {
     };
     const levelNames = {
         'decouverte': 'Découverte',
-        'approfondissement': 'Approfondissement',
-        'maitrise': 'Maîtrise',
-        'expertise': 'Expertise'
+        'intermediaire': 'Intermédiaire',
+        'expert': 'Expert'
     };
 
     // Créer le contenu HTML pour l'impression
