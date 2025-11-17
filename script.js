@@ -42,7 +42,6 @@ function addToTrainingPlan() {
     // Ajouter le défi
     trainingPlan.push({
         id: currentChallenge,
-        level: currentLevel,
         skill: currentSkill,
         title: challenge.title,
         icon: challenge.icon,
@@ -75,11 +74,6 @@ function viewTrainingPlan() {
             'assistante': 'L\'IA comme assistante',
             'pilotage': 'L\'IA comme outil de pilotage'
         };
-        const levelNames = {
-            'decouverte': 'Découverte',
-            'intermediaire': 'Intermédiaire',
-            'expert': 'Expert'
-        };
 
         return `
                             <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-4 border border-purple-200">
@@ -91,9 +85,6 @@ function viewTrainingPlan() {
                                         <div class="flex-1">
                                             <h3 class="font-semibold text-gray-800 mb-2">${index + 1}. ${item.title}</h3>
                                             <div class="flex flex-wrap gap-2 mb-2">
-                                                <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
-                                                    ${levelNames[item.level] || item.level}
-                                                </span>
                                                 <span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs rounded-full">
                                                     ${skillNames[item.skill] || item.skill}
                                                 </span>
@@ -188,11 +179,6 @@ function printTrainingPlan() {
     const skillNames = {
         'assistante': 'L\'IA comme assistante',
         'pilotage': 'L\'IA comme outil de pilotage'
-    };
-    const levelNames = {
-        'decouverte': 'Découverte',
-        'intermediaire': 'Intermédiaire',
-        'expert': 'Expert'
     };
 
     // Créer le contenu HTML pour l'impression
@@ -307,7 +293,6 @@ function printTrainingPlan() {
                             <span class="challenge-title">${index + 1}. ${item.title}</span>
                         </div>
                         <div class="challenge-meta">
-                            <span class="badge badge-level">${levelNames[item.level] || item.level}</span>
                             <span class="badge badge-skill">${skillNames[item.skill] || item.skill}</span>
                         </div>
                         <div class="challenge-description">
@@ -419,7 +404,7 @@ function renderChallenges(containerId, category) {
 
 function selectSkill(skill) {
     currentSkill = skill;
-    updateStepIndicator(3);
+    updateStepIndicator(2);
 
     // Masquer tous les groupes de défis
     document.querySelectorAll('[id^="challenges-"]').forEach(el => el.classList.add('hidden'));
@@ -443,7 +428,7 @@ function selectSkill(skill) {
 
 function selectChallenge(challenge) {
     currentChallenge = challenge;
-    updateStepIndicator(4);
+    updateStepIndicator(3);
     showChallengeDetails(challenge);
 }
 
@@ -660,14 +645,11 @@ function toggleHelp() {
 }
 
 function goBack(section) {
-    if (section === 'level-selection') {
+    if (section === 'skill-selection') {
         updateStepIndicator(1);
-        showSection('level-selection');
-    } else if (section === 'skill-selection') {
-        updateStepIndicator(2);
         showSection('skill-selection');
     } else if (section === 'challenge-selection') {
-        updateStepIndicator(3);
+        updateStepIndicator(2);
         showSection('challenge-selection');
     }
 }
@@ -675,33 +657,34 @@ function goBack(section) {
 function goToStep(step) {
     if (step === 1) {
         updateStepIndicator(1);
-        showSection('level-selection');
-    } else if (step === 2 && currentLevel) {
-        updateStepIndicator(2);
         showSection('skill-selection');
-    } else if (step === 3 && currentLevel && currentSkill) {
-        updateStepIndicator(3);
+    } else if (step === 2 && currentSkill) {
+        updateStepIndicator(2);
         showSection('challenge-selection');
-    } else if (step === 4 && currentLevel && currentSkill && currentChallenge) {
-        updateStepIndicator(4);
+    } else if (step === 3 && currentSkill && currentChallenge) {
+        updateStepIndicator(3);
         showSection('challenge-details');
     }
 }
 
 function updateStepIndicator(activeStep) {
     // Réinitialiser tous les indicateurs
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 3; i++) {
         const step = document.getElementById(`step${i}`);
-        step.className = 'step-indicator w-10 h-10 rounded-full bg-white border-2 border-gray-300 flex items-center justify-center text-sm font-semibold text-gray-400 cursor-pointer';
+        if (step) {
+            step.className = 'step-indicator w-10 h-10 rounded-full bg-white border-2 border-gray-300 flex items-center justify-center text-sm font-semibold text-gray-400 cursor-pointer';
+        }
     }
 
     // Activer les étapes jusqu'à l'étape active
     for (let i = 1; i <= activeStep; i++) {
         const step = document.getElementById(`step${i}`);
-        if (i === activeStep) {
-            step.className = 'step-indicator step-active w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold text-white cursor-pointer';
-        } else {
-            step.className = 'step-indicator w-10 h-10 rounded-full bg-white border-2 border-indigo-300 flex items-center justify-center text-sm font-semibold text-indigo-600 cursor-pointer';
+        if (step) {
+            if (i === activeStep) {
+                step.className = 'step-indicator step-active w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold text-white cursor-pointer';
+            } else {
+                step.className = 'step-indicator w-10 h-10 rounded-full bg-white border-2 border-indigo-300 flex items-center justify-center text-sm font-semibold text-indigo-600 cursor-pointer';
+            }
         }
     }
 }
