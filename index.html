@@ -29,21 +29,17 @@
      <div id="step3" class="step-indicator w-10 h-10 rounded-full bg-white border-2 border-gray-300 flex items-center justify-center text-sm font-semibold text-gray-400 cursor-pointer" onclick="goToStep(3)">
       3
      </div>
-     <div class="w-12 h-1 bg-gray-300 rounded"></div>
-     <div id="step4" class="step-indicator w-10 h-10 rounded-full bg-white border-2 border-gray-300 flex items-center justify-center text-sm font-semibold text-gray-400 cursor-pointer" onclick="goToStep(4)">
-      4
-     </div>
     </div><!-- Bouton Plan de Formation -->
     <div class="text-center mb-6"><button onclick="viewTrainingPlan()" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors shadow-lg"> 📋 Visualiser mon plan de formation <span id="plan-count" class="ml-2 px-2 py-1 bg-purple-800 rounded-full text-xs">0</span> </button>
     </div>
    </div><!-- Contenu principal -->
    <div class="max-w-4xl mx-auto"><!-- Étape 1: Sélection du niveau -->
-    <div id="level-selection" class="fade-in">
+    <div id="level-selection" class="fade-in hidden">
      <div class="text-center mb-8">
       <h2 class="text-2xl font-semibold text-gray-800 mb-4">Choisissez votre niveau</h2>
       <p class="text-gray-600">Sélectionnez le niveau qui correspond à votre expérience avec l'intelligence artificielle</p>
      </div>
-     <div class="grid md:grid-cols-4 gap-6">
+     <div class="grid md:grid-cols-3 gap-6">
       <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectLevel('decouverte')">
        <div class="text-center">
         <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">🌱</span>
@@ -52,52 +48,36 @@
         <p class="text-gray-600">Premiers pas avec l'IA générative</p>
        </div>
       </div>
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectLevel('approfondissement')">
+      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectLevel('intermediaire')">
        <div class="text-center">
         <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">⚡</span>
         </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">Approfondissement</h3>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Intermédiaire</h3>
         <p class="text-gray-600">Techniques avancées avec l'IA</p>
        </div>
       </div>
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectLevel('maitrise')">
-       <div class="text-center">
-        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">🎯</span>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">Maîtrise</h3>
-        <p class="text-gray-600">Maîtrise avancée de l'IA</p>
-       </div>
-      </div>
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectLevel('expertise')">
+      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectLevel('expert')">
        <div class="text-center">
         <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">🚀</span>
         </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">Expertise</h3>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Expert</h3>
         <p class="text-gray-600">Maîtrise experte de l'IA</p>
        </div>
       </div>
      </div>
-    </div><!-- Étape 2: Sélection de la compétence -->
-    <div id="skill-selection" class="fade-in hidden">
+    </div><!-- Étape 1: Sélection de la compétence -->
+    <div id="skill-selection" class="fade-in">
      <div class="text-center mb-8">
       <h2 class="text-2xl font-semibold text-gray-800 mb-4">Choisissez la compétence à travailler</h2>
       <p class="text-gray-600">Sélectionnez l'axe de travail qui vous intéresse</p>
      </div>
-     <div class="grid md:grid-cols-3 gap-6">
+     <div class="grid md:grid-cols-2 gap-6">
       <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectSkill('assistante')">
        <div class="text-center">
         <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">🤖</span>
         </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">L'IA générative comme assistante</h3>
         <p class="text-gray-600">Utiliser l'IA pour vous aider dans vos tâches quotidiennes</p>
-       </div>
-      </div>
-      <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectSkill('pedagogie')">
-       <div class="text-center">
-        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">🎓</span>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">Construction de scénarii pédagogiques</h3>
-        <p class="text-gray-600">Créer des séances éducatives avec l'aide de l'IA</p>
        </div>
       </div>
       <div class="challenge-card bg-white rounded-xl p-6 shadow-lg border border-gray-200" onclick="selectSkill('pilotage')">
@@ -109,9 +89,7 @@
        </div>
       </div>
      </div>
-     <div class="text-center mt-6"><button onclick="goBack('level-selection')" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"> ← Retour </button>
-     </div>
-    </div><!-- Étape 3: Sélection du défi -->
+    </div><!-- Étape 2: Sélection du défi -->
     <div id="challenge-selection" class="fade-in hidden">
      <div class="text-center mb-8">
       <h2 class="text-2xl font-semibold text-gray-800 mb-4">Choisissez votre défi</h2>
@@ -120,15 +98,12 @@
      <div id="challenges-assistante" class="space-y-6">
       <!-- Les défis seront générés dynamiquement par JavaScript -->
      </div>
-     <div id="challenges-pedagogie" class="space-y-6 hidden">
-      <!-- Les défis seront générés dynamiquement par JavaScript -->
-     </div>
      <div id="challenges-pilotage" class="space-y-6 hidden">
       <!-- Les défis seront générés dynamiquement par JavaScript -->
      </div>
      <div class="text-center mt-6"><button onclick="goBack('skill-selection')" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"> ← Retour </button>
      </div>
-    </div><!-- Étape 4: Fiche de présentation du défi -->
+    </div><!-- Étape 3: Fiche de présentation du défi -->
     <div id="challenge-details" class="fade-in hidden"><!-- Contenu dynamique généré par JavaScript -->
     </div>
    </div>
